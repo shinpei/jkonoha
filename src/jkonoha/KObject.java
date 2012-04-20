@@ -1,6 +1,7 @@
 package jkonoha;
 import java.util.ArrayList;
 
+
 public class KObject {
 	// KObjectHeader h;
 	private ArrayList<KObject>	fields;
