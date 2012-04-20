@@ -1,5 +1,5 @@
 package jkonoha;
 
-public class Token {
+public class Tenv {
 
 }
