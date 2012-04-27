@@ -14,7 +14,7 @@ class Tenv {
 }
 
 abstract class Parser {
-	
+
 	public abstract int parse(CTX ctx, KToken tk, Tenv tenv, int pos, KMethod thunk);
 	
 	public static final Parser parseINDENT = new Parser() {
@@ -80,12 +80,11 @@ abstract class Parser {
 				if(ch == '_' || isalnum(ch)) continue; // nothing
 				break;
 			}
-			if(IS_NOTNULL(tk)) {
+			if(/* tk is not NULL */) {
 				KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
 				tk->tt = TK_SYMBOL;
 			}
 			return pos - 1;  // next
-		
 		}
 	};
 	
