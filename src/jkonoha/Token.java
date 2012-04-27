@@ -26,21 +26,21 @@ abstract class Parser {
 				else if(ch == ' ') { c += 1; }
 				break;
 			}
-			if(/* tk is not null */) {
+			if(CTX.IS_NOTNULL(tk)) {
 				// tk.tt = ; // TODO
 				tk.lpos = 0;		
 			}
 			return pos - 1;
 		}
-	}
+	};
 	
 	public static final Parser parseNL = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 			tenv.uline += 1;
 			tenv.bol = tenv.source[pos + 1];
-			return parseINDENT(ctx, tk, tenv, pos, thunk)
+			return parseINDENT(ctx, tk, tenv, pos, thunk);
 		}
-	}
+	};
 	
 	public static final Parser parseNUM = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int tok_start, KMethod thunk) {
@@ -50,20 +50,20 @@ abstract class Parser {
 			while((ch = ts[pos++]) != null) {
 				if(ch == '_') continue; // nothing
 				if(ch == '.') {
-					if(/* ts[pos] is not digit */) {
+					if(!Character.isDigit(ts[pos])) {
 						pos--;
 						break;
 					}
 					dot++;
 					continue;
 				}
-				if((ch == 'e' || ch == 'E') && (ts[pos] == '+' || ts[pos] =='-')) {
+				if((ch == 'e' || ch == 'E') && (ts[pos] == '+' || ts[pos] == '-')) {
 					pos++;
 					continue;
 				}
-				if(/* ch is not alnum */) break;
+				if(!Character.isLetterOrDigit(ch)) break;
 			}
-			if(/* tk is not NULL */) {
+			if(CTX.IS_NOTNULL(tk)) {
 				// TODO
 				// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
 				// tk->tt = (dot == 0) ? TK_INT : TK_FLOAT;
@@ -80,9 +80,10 @@ abstract class Parser {
 				if(ch == '_' || isalnum(ch)) continue; // nothing
 				break;
 			}
-			if(/* tk is not NULL */) {
-				KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-				tk->tt = TK_SYMBOL;
+			if(CTX.IS_NOTNULL(tk)) {
+				// TODO
+				// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+				// tk->tt = TK_SYMBOL;
 			}
 			return pos - 1;  // next
 		}
@@ -91,57 +92,57 @@ abstract class Parser {
 	public static final Parser parseUSYMBOL = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseMSYMBOL = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseOP1 = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseOP = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseLINE = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseCOMMENT = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseSLASH = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseDQUOTE = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseSKIP = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseUNDEF = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 	
 	public static final Parser parseBLOCK = new Parser() {
 		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
 		}
-	}
+	};
 }
 
 class FToken {
@@ -162,7 +163,7 @@ class FToken {
 	public final int _RBR = 0;
 }
 
-abstract class Tokenize {
+class Tokenize {
 	static void tokenize(CTX ctx, Tenv env) {
 		char ch;
 		int pos = 0;
