@@ -236,29 +236,28 @@ class FToken extends Parser {
 	}
 }
 
-class Tokenize {
-	static void tokenize(CTX ctx, Tenv env) {
-		char ch;
-		int pos = 0;
-	}
-}
-
-class KTokenize extends Tokenize {
+class KTokenize {
 	CTX ctx;
 	Tenv tenv;
 	KArray a;
 	
-	KTokenize(CTX ctx, String source, long uline, KArray a) {
+	KTokenize(CTX ctx, String source, long uline, int indent_tab, KArray a) {
 		this.ctx = ctx;
-		this.tenv = new Tenv(source, uline);
+		this.tenv = new Tenv(source, uline, indent_tab);
 		this.a = a;
+	}
+	
+	private void tokenize(CTX ctx, Tenv env) {
+		char ch;
+		int pos = 0;
+		FToken fmat = new FToken();
 	}
 	
 	public void ktokenize() {
 		long i;
 		
 		tokenize(this.ctx, this.tenv);
-		if(this.uline == 0) {
+		if(this.tenv.uline == 0) {
 			for(i = pos;; i++) {
 				a.Wtoks[i].uline = 0;
 			}
