@@ -247,10 +247,14 @@ class KTokenize {
 		this.a = a;
 	}
 	
-	private void tokenize(CTX ctx, Tenv env) {
+	private void tokenize(CTX ctx, Tenv tenv) {
 		char ch;
 		int pos = 0;
 		FToken fmat = new FToken();
+		// KToken tk = new KToken();
+		// assert tk->tt == 0
+		tk.uline = tenv.uline;
+		//tk.lpos = 
 	}
 	
 	public void ktokenize() {
