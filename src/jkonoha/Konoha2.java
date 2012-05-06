@@ -40,7 +40,7 @@ final class CTX {
 	public static final int KMOD_llvm = 15;
 	public static final int KMOD_REGEX = 16;
 	
-	public static final long KObject_NullObject = (1<<0);
+	public static final int KObject_NullObject = (1<<0);
 	
 	public static boolean IS_NOTNULL(KToken tk) {
 		return ((tk.h.magicflag & KObject_NullObject) != KObject_NullObject);
@@ -48,7 +48,7 @@ final class CTX {
 }
 
 class KObjectHeader {
-	public long magicflag;
+	public int magicflag;
 }
 
 class KArray<T> extends ArrayList<Object> {

@@ -2,18 +2,21 @@ package jkonoha;
 
 final class TEnv {
 	String source;
-	long uline;
+	int uline;
+	KArray<KToken> list;
 	int bol;   // begin of line
 	int indent_tab;
 	
-	TEnv(String source, long uline, int indent_tab) {
+	TEnv(String source, int uline, KArray a, int indent_tab) {
 		this.source = source;
 		this.uline = uline;
+		this.list = a;
+		this.bol = 0;
 		this.indent_tab = indent_tab;
 	}
 	
-	public final int lpos(String s) {
-		// TODO return (this.bol == null) ? -1 : 
+	public final int lpos(int pos) {
+		return (this.bol == 0) ? -1 : (int)(pos - this.bol);
 	}
 }
 
@@ -115,7 +118,7 @@ final class FToken {
 	
 	public static final int parseNL(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk) {
 		tenv.uline += 1;
-		tenv.bol = tenv.source.charAt(pos + 1);
+		tenv.bol = pos + 1;
 		return parseINDENT(ctx, tk, tenv, pos + 1, thunk);
 	}
 	
@@ -140,7 +143,7 @@ final class FToken {
 		if(CTX.IS_NOTNULL(tk)) {
 			// TODO
 			// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-			// tk->tt = (dot == 0) ? TK_INT : TK_FLOAT;
+			tk.tt = (dot == 0) ? KToken.TK_INT : KToken.TK_FLOAT;
 		}
 		return pos - 1;  // next
 	}
@@ -155,7 +158,7 @@ final class FToken {
 		if(CTX.IS_NOTNULL(tk)) {
 			// TODO
 			// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-			// tk->tt = TK_SYMBOL;
+			tk.tt = KToken.TK_SYMBOL;
 		}
 		return pos - 1;  // next
 	}	
@@ -257,7 +260,7 @@ final class FToken {
 		if(CTX.IS_NOTNULL(tk)) {
 			// TODO perror.h
 			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with */");
-			KToken.Token_toERR(ctx, tk, errref);
+			// KToken.Token_toERR(ctx, tk, errref);
 		}
 		return pos - 1;/*EOF*/
 	}
@@ -292,7 +295,7 @@ final class FToken {
 		if(CTX.IS_NOTNULL(tk)) {
 			// TODO perror.h
 			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with \"");
-			KToken.Token_toERR(ctx, tk, errref);
+			// KToken.Token_toERR(ctx, tk, errref);
 		}
 		return pos - 1;
 	}
@@ -305,13 +308,41 @@ final class FToken {
 		if(CTX.IS_NOTNULL(tk)) {
 			// TODO
 			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "undefined token character: %c", tenv->source[tok_start]);
-			KToken.Token_toERR(ctx, tk, errref);
+			// KToken.Token_toERR(ctx, tk, errref);
 		}
 		while(tenv.source.charAt(++tok_start) != 0);
 		return tok_start;
 	}
 	
 	public static final int parseBLOCK(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, level = 1, pos = tok_start + 1;
+		tk.lpos += 1;
+		while((ch = FToken.kchar(tenv.source, pos)) != 0) {
+			if(ch == FToken._RBR/*}*/) {
+				level--;
+				if(level == 0) {
+					if(CTX.IS_NOTNULL(tk)) {
+						// TODO
+						// KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos-2)-(tok_start)+1), 0));
+						tk.tt = KToken.TK_CODE;
+					}
+					return pos + 1;
+				}
+				pos++;
+			}
+			else if(ch == FToken._LBR/*'{'*/) {
+				level++; pos++;
+			}
+			else {
+				pos = FToken.MiniKonohaTokenMatrix(ctx, /*K_NULLTOKEN*/, tenv, pos, null);
+			}
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with }");
+			// Token_toERR(_ctx, tk, errref);
+		}
+		return pos - 1;
 	}
 	
 	public static final int MiniKonohaTokenMatrix(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk, int ch) {
@@ -358,33 +389,31 @@ final class ParseSyntaxRule {
 		KToken tk = new KToken(); // TODO
 		assert tk.tt == 0;
 		tk.uline = tenv.uline;
-		tk.lpos = tenv.lpos();
+		tk.lpos = tenv.lpos(0);
 		pos = FToken.parseINDENT(ctx, tk, tenv, pos, null);
 		while((ch = FToken.kchar(tenv.source, pos)) != 0) {
 			if(tk.tt != 0) {
-			// TODO
-			//	kArra_add(tenv->list, tk);
-			//	tk = new_W(Token, 0);
+				tenv.list.add(tk);
+				tk = new KToken(); // TODO
 				tk.uline = tenv.uline;
-				tk.lpos = tenv.lpos();
+				tk.lpos = tenv.lpos(pos);
 			}
 			int pos2 = FToken.MiniKonohaTokenMatrix(ctx, tk, tenv, pos, null, ch);
 			assert pos2 > pos;
 			pos = pos2;
 		}
 		if(tk.tt != 0) {
-			// TODO
-			// kArray_add(tenv->list, tk);
+			tenv.list.add(tk);
 		}
 	}
 	
-	public static void ktokenize(CTX ctx, String source, long uline) {
-		long i;
-		TEnv tenv = new TEnv(source, uline, 4);
+	public static void ktokenize(CTX ctx, String source, int uline, KArray<KToken> a) {
+		int i, pos = a.size();
+		TEnv tenv = new TEnv(source, uline, a, 4);
 		tokenize(ctx, tenv);
 		if(tenv.uline == 0) {
-			for(i = pos;; i++) {
-				a.Wtoks[i].uline = 0;
+			for(i = pos; i < a.size(); i++) {
+				a.get(i).uline = 0;
 			}
 		}
 	}
