@@ -1,151 +1,27 @@
 package jkonoha;
 
-class Tenv {
+final class TEnv {
+	
 	String source;
-	long uline;
-	char bol;
+	int uline;
+	KArray<KToken> list;
+	int bol;   // begin of line
 	int indent_tab;
 	
-	Tenv(String source, long uline, int indent_tab) {
+	TEnv(String source, int uline, KArray a, int indent_tab) {
 		this.source = source;
 		this.uline = uline;
+		this.list = a;
+		this.bol = 0;
 		this.indent_tab = indent_tab;
 	}
-}
-
-abstract class Parser {
-
-	public abstract int parse(CTX ctx, KToken tk, Tenv tenv, int pos, KMethod thunk);
 	
-	public static final Parser parseINDENT = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-			char ch;
-			int c = 0;
-			while((ch = tenv.source.charAt(pos++)) != null) {
-				if(ch == '\t') { c += tenv.indent_tab; }
-				else if(ch == ' ') { c += 1; }
-				break;
-			}
-			if(CTX.IS_NOTNULL(tk)) {
-				// tk.tt = ; // TODO
-				tk.lpos = 0;		
-			}
-			return pos - 1;
-		}
-	};
-	
-	public static final Parser parseNL = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-			tenv.uline += 1;
-			tenv.bol = tenv.source.charAt(pos + 1);
-			return parseINDENT(ctx, tk, tenv, pos, thunk);
-		}
-	};
-	
-	public static final Parser parseNUM = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int tok_start, KMethod thunk) {
-			char ch;
-			int pos = tok_start, dot = 0;
-			String ts = tenv.source;
-			while((ch = ts.charAt(pos++)) != null) {
-				if(ch == '_') continue; // nothing
-				if(ch == '.') {
-					if(!Character.isDigit(ts.charAt(pos))) {
-						pos--;
-						break;
-					}
-					dot++;
-					continue;
-				}
-				if((ch == 'e' || ch == 'E') && (ts.charAt(pos) == '+' || ts.charAt(pos) == '-')) {
-					pos++;
-					continue;
-				}
-				if(!Character.isLetterOrDigit(ch)) break;
-			}
-			if(CTX.IS_NOTNULL(tk)) {
-				// TODO
-				// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-				// tk->tt = (dot == 0) ? TK_INT : TK_FLOAT;
-			}
-			return pos - 1;  // next
+	public final int lpos(int pos) {
+		return (this.bol == 0) ? -1 : (int)(pos - this.bol);
 	}
-		
-	public static final Parser parseSYMBOL = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int tok_start, KMethod thunk) {
-			char ch;
-			int pos = tok_start;
-			String ts = tenv.source;
-			while((ch = ts.charAt(pos++)) != 0) {
-				if(ch == '_' || isalnum(ch)) continue; // nothing
-				break;
-			}
-			if(CTX.IS_NOTNULL(tk)) {
-				// TODO
-				// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-				// tk->tt = TK_SYMBOL;
-			}
-			return pos - 1;  // next
-		}
-	};
-	
-	public static final Parser parseUSYMBOL = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseMSYMBOL = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseOP1 = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseOP = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseLINE = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseCOMMENT = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseSLASH = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseDQUOTE = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseSKIP = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseUNDEF = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
-	
-	public static final Parser parseBLOCK = new Parser() {
-		@Override public int parse(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
-		}
-	};
 }
 
-class FToken extends Parser {
+final class FToken {
 	
 	public static final int _NULL = 0;
 	public static final int _UNDEF = 1;
@@ -223,52 +99,404 @@ class FToken extends Parser {
 	_LALPHA, _LALPHA, _LALPHA, _LBR, _VAR, _RBR, _CHILDER, 1,
 	};	
 	
-	@Override public final int parse(CTX ctx, KToken tk, Tenv tenv, int pos, KMethod thunk) {
-	}
-	
-	public final int kchar(String t, int pos) {
+	public static final int kchar(String t, int pos) {
 		int ch = t.charAt(pos);
 		return (ch < 0) ? _MULTI : cMatrix[ch];
 	}
 	
-	int MiniKonohaTokenMatrix(CTX ctx,  KToken tk, Tenv tenv, int pos, KMethod thunk) {
+	public static final int parseINDENT(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk) {
+		int ch, c = 0;
+		while((ch = tenv.source.charAt(pos++)) != 0) {
+			if(ch == '\t') { c += tenv.indent_tab; }
+			else if(ch == ' ') { c += 1; }
+			break;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			tk.tt = KToken.TK_INDENT;
+			tk.lpos = 0;		
+		}
+		return pos - 1;
+	}	
+	
+	public static final int parseNL(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk) {
+		tenv.uline += 1;
+		tenv.bol = pos + 1;
+		return parseINDENT(ctx, tk, tenv, pos + 1, thunk);
+	}
+	
+	public static final int parseNUM(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, pos = tok_start, dot = 0;
+		String ts = tenv.source;
+		while((ch = ts.charAt(pos++)) != 0) {
+			if(ch == '_') continue; // nothing
+			if(ch == '.') {
+				if(!Character.isDigit(ts.charAt(pos))) {
+					break;
+				}
+				dot++;
+				continue;
+			}
+			if((ch == 'e' || ch == 'E') && (ts.charAt(pos) == '+' || ts.charAt(pos) == '-')) {
+				pos++;
+				continue;
+			}
+			if(!Character.isLetterOrDigit(ch)) break;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.tt = (dot == 0) ? KToken.TK_INT : KToken.TK_FLOAT;
+		}
+		return pos - 1;  // next
+	}
 		
+	public static final int parseSYMBOL(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, pos = tok_start;
+		String ts = tenv.source;
+		while((ch = ts.charAt(pos++)) != 0) {
+			if(ch == '_' || Character.isLetterOrDigit(ch)) continue; // nothing
+			break;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.tt = KToken.TK_SYMBOL;
+		}
+		return pos - 1;  // next
+	}	
+	
+	public static final int parseUSYMBOL(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, pos = tok_start;
+		String ts = tenv.source;
+		while((ch = ts.charAt(pos++)) != 0) {
+			if(ch == '_' || Character.isLetterOrDigit(ch)) continue; // nothing
+			break;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.tt = KToken.TK_USYMBOL;
+		}
+		return pos - 1; // next
+	}
+	
+	public static final int parseMSYMBOL(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, pos = tok_start;
+		String ts = tenv.source;
+		while((ch = ts.charAt(pos++)) != 0) {
+			if(!(ch < 0)) break;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// KSETv(tk->text, new_kString(ts + tok_start, (pos - 1) - tok_start, SPOL_UTF8));
+			tk.tt = KToken.TK_MSYMBOL;
+		}
+		return pos - 1; // next
+	}
+	
+	public static final int parseOP1(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		if(CTX.IS_NOTNULL(tk)) {
+			String s = tenv.source.substring(tok_start);
+			// TODO
+			// KSETv(tk->text, new_kString(s, 1, SPOL_ASCII|SPOL_POOL));
+			tk.tt = KToken.TK_OPERATOR;
+			tk.topch = s.charAt(tok_start);
+		}
+		return tok_start + 1;
+	}
+	
+	public static final int parseOP(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, pos = tok_start;
+		while((ch = tenv.source.charAt(pos++)) != 0) {
+		if(Character.isLetter(ch)) break;
+		switch(ch) {
+			case '<': case '>': case '@': case '$': case '#':
+			case '+': case '-': case '*': case '%': case '/':
+			case '=': case '&': case '?': case ':': case '.':
+			case '^': case '!': case '~': case '|':
+			continue;
+			}
+			break;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			String s = tenv.source.substring(tok_start);
+			// TODO
+			// KSETv(tk->text, new_kString(s, (pos - 1) - tok_start, SPOL_ASCII|SPOL_POOL));
+			tk.tt = KToken.TK_OPERATOR;
+			// TODO
+			// if(S_size(tk->text) == 1) {
+			// 		tk->topch = S_text(tk->text)[0];
+			// }
+		}
+		return pos - 1;
+	}
+	
+	public static final int parseLINE(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, pos = tok_start;
+		while((ch = tenv.source.charAt(pos++)) != 0) {
+			if(ch == '\n') break;
+		}
+		return pos - 1;/*EOF*/
+	}
+	
+	public static final int parseCOMMENT(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, prev = 0, level = 1, pos = tok_start + 2;
+		/*@#nnnn is line number */
+		if(tenv.source.charAt(pos) == '@' && tenv.source.charAt(pos + 1) == '#' && Character.isDigit(tenv.source.charAt(pos + 2))) {
+			// TODL
+			// tenv.uline >>= (sizeof(kshort_t)*8);
+			// tenv->uline = (tenv->uline<<(sizeof(kshort_t)*8)) | (kshort_t)strtoll(tenv->source + pos + 2, NULL, 10);
+		}
+		while((ch = tenv.source.charAt(pos++)) != 0) {
+			if(ch == '\n') {
+				tenv.uline += 1;
+			}
+			if(prev == '*'  && ch == '/') {
+				level--;
+				if(level == 0) return pos;
+			} else if(prev == '/' && ch == '*') {
+				level++;
+			}
+			prev = ch;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO perror.h
+			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with */");
+			// KToken.Token_toERR(ctx, tk, errref);
+		}
+		return pos - 1;/*EOF*/
+	}
+	
+	public static final int parseSLASH(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		String ts = tenv.source.substring(tok_start);
+		if(ts.charAt(1) == '/') {
+			return parseLINE(ctx, tk, tenv, tok_start, thunk);
+		}
+		if(ts.charAt(1) == '*') {
+			return parseCOMMENT(ctx, tk, tenv, tok_start, thunk);
+		}
+		return parseOP(ctx, tk, tenv, tok_start, thunk);
+	}
+	
+	public static final int parseDQUOTE(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, prev = '"', pos = tok_start + 1;
+		while((ch = tenv.source.charAt(pos++)) != 0) {
+			if(ch == '\n') {
+				break;
+			}
+			if(ch == '"' && prev != '\\') {
+				if(CTX.IS_NOTNULL(tk)) {
+					// TODO
+					// KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos - 1) - (tok_start + 1), 0));
+					tk.tt = KToken.TK_TEXT;
+				}
+				return pos;
+			}
+			prev = ch;
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO perror.h
+			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with \"");
+			// KToken.Token_toERR(ctx, tk, errref);
+		}
+		return pos - 1;
+	}
+	
+	public static final int parseSKIP(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		return tok_start + 1;
+	}
+	
+	public static final int parseUNDEF(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "undefined token character: %c", tenv->source[tok_start]);
+			// KToken.Token_toERR(ctx, tk, errref);
+		}
+		while(tenv.source.charAt(++tok_start) != 0);
+		return tok_start;
+	}
+	
+	public static final int parseBLOCK(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+		int ch, level = 1, pos = tok_start + 1;
+		tk.lpos += 1;
+		while((ch = FToken.kchar(tenv.source, pos)) != 0) {
+			if(ch == FToken._RBR/*}*/) {
+				level--;
+				if(level == 0) {
+					if(CTX.IS_NOTNULL(tk)) {
+						// TODO
+						// KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos-2)-(tok_start)+1), 0));
+						tk.tt = KToken.TK_CODE;
+					}
+					return pos + 1;
+				}
+				pos++;
+			}
+			else if(ch == FToken._LBR/*'{'*/) {
+				level++; pos++;
+			}
+			else {
+				pos = FToken.MiniKonohaTokenMatrix(ctx, /*K_NULLTOKEN*/, tenv, pos, null);
+			}
+		}
+		if(CTX.IS_NOTNULL(tk)) {
+			// TODO
+			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with }");
+			// Token_toERR(_ctx, tk, errref);
+		}
+		return pos - 1;
+	}
+	
+	public static final int MiniKonohaTokenMatrix(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk, int ch) {
+		switch(ch) {
+		case _NULL: case _UNDEF: case _TAB: case _SP: 
+			return parseSKIP(ctx, tk, tenv, pos, thunk);
+		case _DIGIT: 
+			return parseNUM(ctx, tk, tenv, pos, thunk);
+		case _UALPHA:
+			return parseUSYMBOL(ctx, tk, tenv, pos, thunk);
+		case _LALPHA: case _UNDER:
+			return parseSYMBOL(ctx, tk, tenv, pos, thunk);
+		case _MULTI:
+			return parseMSYMBOL(ctx, tk, tenv, pos, thunk);
+		case _NL:
+			return parseNL(ctx, tk, tenv, pos, thunk);
+		case _LPAR: case _RPAR: case _LSQ: case _RSQ: case _RBR: case _COMMA:
+		case _SEMICOLON: case _AT:
+			return parseOP1(ctx, tk, tenv, pos, thunk);
+		case _LBR: 
+			return parseBLOCK(ctx, tk, tenv, pos, thunk);
+		case _LT: case _GT: case _OKIDOKI: case _SHARP: case _DOLLAR: case _PER:
+		case _AND: case _STAR: case _PLUS: case _MINUS: case _DOT: case _COLON:
+		case _EQ: case _QUESTION: case _VAR: case _CHILDER: case _HAT:
+			return parseOP(ctx, tk, tenv, pos, thunk);
+		case _QUOTE: case _BKQUOTE: case _BKSLASH:
+			return parseUNDEF(ctx, tk, tenv, pos, thunk);
+		case _DQUOTE:
+			return parseDQUOTE(ctx, tk, tenv, pos, thunk);
+		case _SLASH:
+			return parseSLASH(ctx, tk, tenv, pos, thunk);
+		}
+		return 0;
 	}
 }
 
-class Tokenize {
-	static void tokenize(CTX ctx, Tenv env) {
-		char ch;
-		int pos = 0;
-	}
-}
-
-class KTokenize extends Tokenize {
-	CTX ctx;
-	Tenv tenv;
-	KArray a;
+final class Tokenizer { // not original
 	
-	KTokenize(CTX ctx, String source, long uline, KArray a) {
-		this.ctx = ctx;
-		this.tenv = new Tenv(source, uline);
-		this.a = a;
+		private static void tokenize(CTX ctx, TEnv tenv) {
+		int ch, pos = 0;
+		KToken tk = new KToken(); // TODO
+		assert tk.tt == 0;
+		tk.uline = tenv.uline;
+		tk.lpos = tenv.lpos(0);
+		pos = FToken.parseINDENT(ctx, tk, tenv, pos, null);
+		while((ch = FToken.kchar(tenv.source, pos)) != 0) {
+			if(tk.tt != 0) {
+				tenv.list.add(tk);
+				tk = new KToken(); // TODO
+				tk.uline = tenv.uline;
+				tk.lpos = tenv.lpos(pos);
+			}
+			int pos2 = FToken.MiniKonohaTokenMatrix(ctx, tk, tenv, pos, null, ch);
+			assert pos2 > pos;
+			pos = pos2;
+		}
+		if(tk.tt != 0) {
+			tenv.list.add(tk);
+		}
 	}
 	
-	public void ktokenize() {
-		long i;
-		
-		tokenize(this.ctx, this.tenv);
-		if(this.uline == 0) {
-			for(i = pos;; i++) {
-				a.Wtoks[i].uline = 0;
+	public static void ktokenize(CTX ctx, String source, int uline, KArray<KToken> a) {
+		int i, pos = a.size();
+		TEnv tenv = new TEnv(source, uline, a, 4);
+		tokenize(ctx, tenv);
+		if(tenv.uline == 0) {
+			for(i = pos; i < a.size(); i++) {
+				a.get(i).uline = 0;
 			}
 		}
 	}
 }
 
-class ParseSyntaxRule {
-	KTokenize ktokenize;
+final class ParseSyntaxRule {
 	
-	PraseSyntaxRule() {
+	private static int findTopCh(CTX ctx, KArray<KToken> tls, int s, int e, int tt, int closech) {
+		int i;
+		for(i = s; i < e; i++) {
+			KToken tk = (KToken)tls.get(i);
+			// TODO if(tk.tt == tt && S_text(tk->text)[0] == closech) return i;
+		}
+		CTX.DBG_ASSERT(i != e);
+		return 0;
+	}
+	
+	private static boolean checkNestedSyntax(CTX ctx, KArray<KToken> tls, int s, int e, int tt, int opench, int closech) {
+		int i = s;
+		KToken tk = (KToken)tls.get(i);
+		String t; // TODO const char *t =  S_text(tk->text);
+		if(t.charAt(0) == opench && t.charAt(1) == 0) {
+			int ne = findTopCh(ctx, tls, i + 1, e, tk.tt, closech);
+			tk.tt = tt; tk.kw = tt;
+			// TODO KSETv(tk->sub, new(TokenArray, 0));
+			tk.topch = opench; tk.closech = closech;
+			makeSyntaxRule(ctx, tls, i + 1, ne, tk.sub);
+			s = ne;
+			return true;
+		}
+		return false;
+	}
+	
+	private static boolean makeSyntaxRule(CTX ctx, KArray<KToken> tls, int s, int e, KArray<KToken> adst) {
+		int i;
+		int nameid = 0;
+		// TODO dumpTokenArray(_ctx, 0, tls, s, e);
+		for(i = s; i < e; i++) {
+			KToken tk = (KToken)tls.get(i);
+			if(tk.tt == KToken.TK_INDENT) continue;
+			if(tk.tt == TK_TEXT /*|| tk.tt == TK_STEXT*/) {
+				if(/* TODO checkNestexdSyntax */) {
+				}
+				else {
+					tk.tt = KToken.TK_CODE;
+					// TODO tk.kw = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
+				}
+				adst.add(tk);
+				continue;
+			}
+			if(tk.tt == KToken.TK_SYMBOL || tk.tt == KToken.TK_USYMBOL) {
+				if(i > 0 && ((KToken)tls.get(i - 1)).topch == '$') {
+					// TODO
+					// snprintf(nbuf, sizeof(nbuf), "$%s", S_text(tk->text));
+					// tk->kw = keyword(_ctx, (const char*)nbuf, strlen(nbuf), FN_NEWID);
+					tk.tt = KToken.TK_METNAME;
+					if(nameid == 0) nameid = tk.kw;
+					tk.nameid = nameid;
+					nameid = 0;
+					adst.add(tk); continue;
+				}
+				if(i + 1 < e && ((KToken)tls.get(i + 1)).topch == ':') {
+					tk = (KToken)tls.get(i);
+					// TODO nameid = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
+					i++;
+					continue;
+				}
+			}
+			if(tk.tt == KToken.TK_OPERATOR) {
+				if(/* checkNestedSyntax */) {
+					adst.add(tk);
+					continue;
+				}
+				if(((KToken)tls.get(i)).topch == '$') continue;
+			}
+			// TODO SUGAR_P(ERR_, tk->uline, tk->lpos, "illegal sugar syntax: %s", kToken_s(tk));
+			return false;
+		}
+		return true;
+	}
+	
+	public static void parseSyntaxRule(CTX ctx, String rule, int uline, KArray<KToken> a) {
+		KArray<KToken> tls; // TODO kArray *tls = ctxsugar->tokens;
+		int pos = tls.size();
+		Tokenizer.ktokenize(ctx, rule, uline, tls);
 	}
 }
