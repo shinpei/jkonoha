@@ -1,3 +1,4 @@
+package konoha;
 import java.util.*;
 
 final class KModLocal {

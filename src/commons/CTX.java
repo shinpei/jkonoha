@@ -1,3 +1,5 @@
+package konoha;
+
 public final class CTX {
 
 	int				safepoint;
@@ -37,8 +39,6 @@ public final class CTX {
 	public static void DBG_ASSERT(boolean a) {
 		assert(a);
 	}
-	
-	
 	
 	// sugar.h
 	public final KModLocal ctxsugar() {
