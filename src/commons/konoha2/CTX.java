@@ -1,4 +1,6 @@
-package commons;
+package commons.konoha2;
+
+import java.util.*;
 
 public final class CTX {
 
@@ -31,7 +33,7 @@ public final class CTX {
 	
 	public static final int KObject_NullObject = (1<<0);
 	
-	public static boolean IS_NOTNULL(KToken tk) {
+	public static boolean IS_NOTNULL(Object o) {
 		return ((tk.h.magicflag & KObject_NullObject) != KObject_NullObject);
 	}
 	

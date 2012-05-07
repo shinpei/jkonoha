@@ -1,7 +1,10 @@
-package konoha;
+package sugar;
 
-class KToken {
-	public KObjectHeader h;
+import commons.konoha2.*;
+import commons.konoha2.kclass.*;
+
+class KToken extends KObject {
+	
 	public int tt;
 	public int kw;
 	
