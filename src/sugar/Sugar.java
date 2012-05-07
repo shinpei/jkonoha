@@ -1,5 +1,4 @@
-package jkonoha;
-
+package konoha;
 
 class KToken {
 	public KObjectHeader h;
