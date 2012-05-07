@@ -1,2 +1,0 @@
-import commons.*;
-package class;
