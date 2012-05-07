@@ -1,7 +1,7 @@
 package sugar;
 
-import commons.*;
-import kclass.*;
+import commons.konoha2.*;
+import commons.konoha2.kclass.*;
 
 final class TEnv {
 	

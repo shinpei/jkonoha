@@ -1,11 +1,10 @@
-package kclass;
+package commons.konoha2.kclass;
 
 import java.util.*;
-import commons.*;
+import commons.konoha2.*;
 
-public final class KArray<T> {
+public final class KArray<T> extends KObject {
 	
-	public KObjectHeader h;
 	private ArrayList<T> list;
 	
 	KArray() {
