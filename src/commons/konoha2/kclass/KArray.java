@@ -1,7 +1,6 @@
 package commons.konoha2.kclass;
 
 import java.util.*;
-import commons.konoha2.*;
 
 public final class KArray<T> extends KObject {
 	
