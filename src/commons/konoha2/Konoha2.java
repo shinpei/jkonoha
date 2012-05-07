@@ -40,12 +40,6 @@ class KObject {
 
 /* ---------------------------------------------------------------- */
 
-final class KObjectHeader {
-	public int magicflag;
-}
-
-/* ---------------------------------------------------------------- */
-
 final class KString {
 	public KObjectHeader h;
 	

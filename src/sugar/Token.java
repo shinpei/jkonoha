@@ -1,4 +1,7 @@
-package jkonoha;
+package sugar;
+
+import commons.*;
+import kclass.*;
 
 final class TEnv {
 	
