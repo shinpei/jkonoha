@@ -1,6 +1,7 @@
 package sugar;
 
 import commons.konoha2.*;
+
 import commons.konoha2.kclass.*;
 
 final class TEnv {
@@ -146,7 +147,7 @@ final class FTokenize {
 			if(!Character.isLetterOrDigit(ch)) break;
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-			tk.text = new KString(ts.substring(tok_start, (pos - 1) - tok_start)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
 			tk.tt = (dot == 0) ? KToken.TK_INT : KToken.TK_FLOAT;
 		}
 		return pos - 1;  // next
@@ -160,7 +161,7 @@ final class FTokenize {
 			break;
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-			tk.text = new KString(ts.substring(tok_start, (pos - 1) - tok_start)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
 			tk.tt = KToken.TK_SYMBOL;
 		}
 		return pos - 1;  // next
@@ -174,7 +175,7 @@ final class FTokenize {
 			break;
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-			tk.text = new KString(ts.substring(tok_start, (pos - 1) - tok_start)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
 			tk.tt = KToken.TK_USYMBOL;
 		}
 		return pos - 1; // next
@@ -187,17 +188,15 @@ final class FTokenize {
 			if(!(ch < 0)) break;
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-			tk.text = new KString(ts.substring(tok_start, (pos - 1) - tok_start)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_UFT8));
+			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_UFT8));
 			tk.tt = KToken.TK_MSYMBOL;
 		}
 		return pos - 1; // next
 	}
 	
 	public static final int parseOP1(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
-		System.out.println("hoge"); // for debug
 		if(CTX.IS_NOTNULL(tk)) {
 			String s = tenv.source.substring(tok_start);
-			System.out.println(s.substring(0, 1)); // for debug
 			tk.text = new KString(s.substring(0, 1)); // KSETv(tk->text, new_kString(s, 1, SPOL_ASCII|SPOL_POOL));
 			tk.tt = KToken.TK_OPERATOR;
 			tk.topch = s.charAt(tok_start);
@@ -206,7 +205,6 @@ final class FTokenize {
 	}
 	
 	public static final int parseOP(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
-		System.out.println("hoge");
 		int ch, pos = tok_start;
 		while((ch = tenv.source.charAt(pos++)) != 0) {
 			if(Character.isLetter(ch)) break;
@@ -286,7 +284,7 @@ final class FTokenize {
 			}
 			if(ch == '"' && prev != '\\') {
 				if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-					tk.text = new KString(tenv.source.substring(tok_start + 1, (pos - 1) - (tok_start + 1))); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos - 1) - (tok_start + 1), 0));
+					tk.text = new KString(tenv.source.substring(tok_start + 1, pos - 1)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos - 1) - (tok_start + 1), 0));
 					tk.tt = KToken.TK_TEXT;
 				}
 				return pos;
@@ -323,7 +321,7 @@ final class FTokenize {
 				level--;
 				if(level == 0) {
 					if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-						tk.text = new KString(tenv.source.substring(tok_start + 1, (pos - 2) - (tok_start + 1))); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos-2)-(tok_start)+1), 0));
+						tk.text = new KString(tenv.source.substring(tok_start + 1, pos - 2)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos-2)-(tok_start)+1), 0));
 						tk.tt = KToken.TK_CODE;
 					}
 					return pos + 1;
