@@ -3,7 +3,7 @@ package sugar;
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 
-class KToken extends KObject {
+public final class KToken extends KObject {
 	
 	public int tt;
 	public int kw;
@@ -51,16 +51,4 @@ class KToken extends KObject {
 	public static final int TK_METNAME = 16;
 	public static final int TK_MN = 17;
 	public static final int AST_OPTIONAL = 18;
-}
-
-class KModSugar {
-	KModShare h;
-//	KClass cToken;
-//	KClass cExpr;
-//	KClass cStmt;
-//	KClass cBlock;
-//	KClass cKonohaSpace;
-//	KClass cGamma;
-	
-	KArray aBuffer;
 }

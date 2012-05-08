@@ -34,7 +34,8 @@ public final class CTX {
 	public static final int KObject_NullObject = (1<<0);
 	
 	public static boolean IS_NOTNULL(Object o) {
-		return ((tk.h.magicflag & KObject_NullObject) != KObject_NullObject);
+		if(!(o instanceof KObject)) return false;
+		return ((((KObject)o).h.magicflag & KObject_NullObject) != KObject_NullObject);
 	}
 	
 	

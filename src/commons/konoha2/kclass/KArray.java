@@ -1,29 +1,32 @@
 package commons.konoha2.kclass;
 
 import java.util.*;
-import commons.konoha2.*;
 
 public final class KArray<T> extends KObject {
 	
 	private ArrayList<T> list;
 	
-	KArray() {
+	public KArray() {
 		this.list = new ArrayList<T>();
 	}
 	
+	public final T get(int i) {
+		return this.list.get(i);
+	}
+	
 	public final int size() {
-		return list.size();
+		return this.list.size();
 	}
 	
 	public final boolean add(T data) {
-		return list.add(data);
+		return this.list.add(data);
 	}
 	
 	public final void insert(int index, T data) {
-		list.add(index, data);
+		this.list.add(index, data);
 	}
 	
 	public final void clear() {
-		list.clear();
+		this.list.clear();
 	}
 }
