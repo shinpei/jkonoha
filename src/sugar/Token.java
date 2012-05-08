@@ -1,4 +1,7 @@
-package jkonoha;
+package sugar;
+
+import commons.konoha2.*;
+import commons.konoha2.kclass.*;
 
 final class TEnv {
 	
@@ -8,7 +11,7 @@ final class TEnv {
 	int bol;   // begin of line
 	int indent_tab;
 	
-	TEnv(String source, int uline, KArray a, int indent_tab) {
+	TEnv(String source, int uline, KArray<KToken> a, int indent_tab) {
 		this.source = source;
 		this.uline = uline;
 		this.list = a;
