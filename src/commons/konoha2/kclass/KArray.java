@@ -6,7 +6,7 @@ public final class KArray<T> extends KObject {
 	
 	private ArrayList<T> list;
 	
-	KArray() {
+	public KArray() {
 		this.list = new ArrayList<T>();
 	}
 	
