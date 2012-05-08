@@ -117,7 +117,7 @@ final class FTokenize {
 		}
 		if(tk != null/* TODO CTX.IS_NOTNULL(tk) */) {
 			tk.tt = KToken.TK_INDENT;
-			tk.lpos = 0;		
+			tk.lpos = 0;
 		}
 		return pos - 1;
 	}	
