@@ -1,14 +1,6 @@
 package konoha;
 import java.util.*;
 
-final class KModLocal {
-	
-}
-
-final class KModShare {
-	
-}
-
 final class KClass {
 	// TODO KCLASSSPI
 	int packid;

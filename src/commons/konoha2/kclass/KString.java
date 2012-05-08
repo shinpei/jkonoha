@@ -5,7 +5,11 @@ public class KString extends KObject {
 	public String text;
 	// TODO const char inline_text[SIZEOF_INLINETEXT];
 	
-	KString(String text) {
+	public KString(String text) {
 		this.text = text;
+	}
+	
+	public final int size() {
+		return this.text.length();
 	}
 }
