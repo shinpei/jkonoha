@@ -8,4 +8,12 @@ public class KString extends KObject {
 	KString(String text) {
 		this.text = text;
 	}
+	
+	public final String text() {
+		return text;
+	}
+	
+	public final int size() {
+		return this.text.length();
+	}
 }
