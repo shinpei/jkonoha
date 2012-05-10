@@ -1,12 +1,16 @@
 package sugar.tokenizer.parser;
 
-import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
-import sugar.tokenizer.TEnv;
+import sugar.*;
+import sugar.tokenizer.*;
+import commons.*;
+import commons.konoha2.*;
+import commons.konoha2.kclass.*;
 
-import commons.konoha2.CTX;
-import commons.konoha2.kclass.KMethod;
-import commons.konoha2.kclass.KString;
+/**
+ * This class is used to parse "MYSYMBOL" 
+ * @author okachin
+ *
+ */
 
 public final class ParseMSYMBOL implements FTokenizer {
 	

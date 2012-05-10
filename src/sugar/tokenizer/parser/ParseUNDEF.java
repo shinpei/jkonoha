@@ -1,11 +1,17 @@
 package sugar.tokenizer.parser;
 
-import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
+import sugar.*;
+
 import sugar.tokenizer.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
+
+/**
+ * This class is used to parse "UNDEF" 
+ * @author okachin
+ *
+ */
 
 public final class ParseUNDEF implements FTokenizer {
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {

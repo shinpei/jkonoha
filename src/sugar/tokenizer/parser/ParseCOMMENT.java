@@ -1,11 +1,16 @@
 package sugar.tokenizer.parser;
 
-import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
+import sugar.*;
 import sugar.tokenizer.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
+
+/**
+ * This class is used to parse "COMMENT" 
+ * @author okachin
+ *
+ */
 
 public final class ParseCOMMENT implements FTokenizer {
 	

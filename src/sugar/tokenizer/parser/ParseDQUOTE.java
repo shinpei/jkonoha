@@ -1,12 +1,17 @@
 package sugar.tokenizer.parser;
 
-import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
+import sugar.*;
 import sugar.tokenizer.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
 import commons.konoha2.kclass.KString;
+
+/**
+ * This class is used to parse "DQUOTE" 
+ * @author okachin
+ *
+ */
 
 public final class ParseDQUOTE implements FTokenizer {
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {

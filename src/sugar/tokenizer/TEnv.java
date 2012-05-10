@@ -3,6 +3,7 @@ package sugar.tokenizer;
 import commons.konoha2.kclass.*;
 
 import sugar.*;
+import sugar.tokenizer.parser.*;
 
 /**
  * tenv_t in original konoha2  
@@ -19,6 +20,20 @@ public class TEnv {
 	public int indent_tab;
 	public FTokenizer[] fmat;
 	
+	/**
+	 * constructer
+	 * sourcecode
+	 * @param source
+	 * which line
+	 * @param uline
+	 * tokens
+	 * @param a
+	 * indent
+	 * @param indent_tab
+	 * parser
+	 * @param fmat
+	 */
+	
 	TEnv(String source, int uline, KArray<KToken> a, int indent_tab, FTokenizer[] fmat) {
 		this.source = source;
 		this.uline = uline;
@@ -30,7 +45,7 @@ public class TEnv {
 	
 	/**
 	 * This method is used to know the position of line.
-	 * @param int pos
+	 * @param pos
 	 * @return int
 	 */
 	

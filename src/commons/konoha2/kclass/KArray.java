@@ -20,7 +20,7 @@ public final class KArray<T> extends KObject {
 	
 	/**
 	 * getter
-	 * @param int i
+	 * @param  i
 	 * @return T
 	 */
 	
@@ -39,7 +39,7 @@ public final class KArray<T> extends KObject {
 	
 	/**
 	 * add
-	 * @param T data
+	 * @param data
 	 * @return boolean
 	 */
 	
@@ -49,8 +49,8 @@ public final class KArray<T> extends KObject {
 	
 	/**
 	 * insert 
-	 * @param int index
-	 * @param T data
+	 * @param index
+	 * @param data
 	 */
 	
 	public final void insert(int index, T data) {

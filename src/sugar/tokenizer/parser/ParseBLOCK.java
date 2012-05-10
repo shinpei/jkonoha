@@ -7,6 +7,12 @@ import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
 import commons.konoha2.kclass.KString;
 
+/**
+ * This class is used to parse "BLOCK" 
+ * @author okachin
+ *
+ */
+
 public final class ParseBLOCK implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {

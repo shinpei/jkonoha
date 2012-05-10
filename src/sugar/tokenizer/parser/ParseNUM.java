@@ -1,12 +1,18 @@
 package sugar.tokenizer.parser;
 
-import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
+import sugar.*;
+
 import sugar.tokenizer.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
 import commons.konoha2.kclass.KString;
+
+/**
+ * This class is used to parse "NUM" 
+ * @author okachin
+ *
+ */
 
 public final class ParseNUM implements FTokenizer {
 	

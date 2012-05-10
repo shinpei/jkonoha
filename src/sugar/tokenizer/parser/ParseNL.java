@@ -1,13 +1,19 @@
 package sugar.tokenizer.parser;
 
-import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
+import sugar.*;
+
 import sugar.tokenizer.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
 
-final class ParseNL implements FTokenizer {
+/**
+ * This class is used to parse "NL" 
+ * @author okachin
+ *
+ */
+
+public final class ParseNL implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk) {
 		tenv.uline += 1;

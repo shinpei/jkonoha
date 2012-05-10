@@ -6,6 +6,12 @@ import sugar.tokenizer.*;
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 
+/**
+ * This class is used to parse "INDENT" 
+ * @author okachin
+ *
+ */
+
 public final class ParseINDENT implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk) {

@@ -2,6 +2,8 @@ package sugar.tokenizer;
 
 import sugar.KToken;
 import sugar.tokenizer.parser.*;
+import commons.*;
+import commons.sugar.*;
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 
@@ -15,9 +17,12 @@ public final class Tokenizer { // not original
 	
 	/**
 	 * This method is used to reduce character code.
-	 * @param String t
-	 * @param int pos
-	 * @return
+	 * 
+	 * sourcecode
+	 * @param t
+	 * position
+	 * @param pos
+	 * @return int
 	 */
 	
 	public static final int kchar(String t, int pos) {
@@ -27,8 +32,11 @@ public final class Tokenizer { // not original
 	
 	/**
 	 * This method is used to tokenize.
-	 * @param CTX ctx
-	 * @param TEnv tenv
+	 * 
+	 * konoha's context
+	 * @param ctx
+	 * source, line, etc...
+	 * @param tenv
 	 */
 	
 	private static final void tokenize(CTX ctx, TEnv tenv) {
@@ -108,11 +116,17 @@ public final class Tokenizer { // not original
 	
 	/**
 	 * This method is used to tokenize. It will be moved to KKonohaSpace class.
-	 * @param CTX ctx
-	 * @param KKonohaSpace ks
-	 * @param String source
-	 * @param int uline
-	 * @param KArray<KToken> a
+	 * 
+	 * konoha's context
+	 * @param ctx
+	 * KonohaSpace
+	 * @param ks
+	 * sourcecode
+	 * @param source
+	 * which line
+	 * @param uline
+	 * tokens
+	 * @param a
 	 */
 	
 	public static void ktokenize(CTX ctx, KKonohaSpace ks, String source, int uline, KArray<KToken> a) {
