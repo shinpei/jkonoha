@@ -71,7 +71,7 @@ public class Konoha {
 		return res;
 	}
 	
-	public static String readline(String prompt)
+/*	public static String readline(String prompt)
 	{
 		static int checkCTL = 0;
 		int ch, pos = 0;
@@ -82,7 +82,7 @@ public class Konoha {
 		while((ch = br.read()) != -1) { //TODO while(... != EOF)
 			if(ch == '\r') continue;
 			if(ch == 27) {
-				/* ^[[A */;
+				 ^[[A ;
 				br.read(); br.read();
 				if(checkCTL == 0) {
 					fr.write(" - use readline, it provides better shell experience.\n");
@@ -105,22 +105,22 @@ public class Konoha {
 	static int add_history(String line)
 	{
 		return 0;
-	}
+	}*/
 	
-	static void shell(CTX)
+	static void shell(CTX ctx)
 	{
 		kwb_t wb;
 		kwb_init((_ctx.stack.cwb), wb);
 		kline_t uline = FILEID_("(shell)") | 1;
 		while(1) {
 			kline_t inc = 0;
-			kstatus_t status = readstmt(_ctx, wb, inc);
+			kstatus_t status = readstmt(ctx, wb, inc);
 			if(status == K_CONTINUE && kwb_bytesize(wb) > 0) {
-				status = konoha_eval((konoha_t)_ctx, kwb_top(wb, 1), uline);
+				status = konoha_eval(ctx, kwb_top(wb, 1), uline);
 				uline += inc;
 				kwb_free(wb);
 				if(status != K_FAILED) {
-					dumpEval(_ctx, wb);
+					dumpEval(ctx, wb);
 					kwb_free(wb);
 				}
 			}
@@ -133,18 +133,19 @@ public class Konoha {
 		return;
 	}
 	
-	static void show_version(CTX)
+	static void show_version(CTX ctx)
 	{
 		int i;
-		fprintf(stdout, "Konoha 2.0-alpha (Miyajima) (%d, %s)\n", K_REVISION, __DATE__);
-		fprintf(stdout, "[gcc %s]\n", __VERSION__);
-		fprintf(stdout, "options:");
+		FileWriter fw = new FileWriter(stdout);
+		fw.write("Konoha 2.0-alpha (Miyajima) (" + K_REVISION + "," + __DATE__ + ")\n");
+		fw.write("[gcc " + __VERSxION__ + "]\n");
+		fw.write("options:");
 		for(i = 0; i < MOD_MAX; i++) {
-			if(_ctx->modshare[i] != NULL) {
-				fprintf(stdout, " %s", _ctx->modshare[i]->name);
+			if(ctx.modshare[i] != null) {
+				fw.write(ctx.modshare[i].name);
 			}
 		}
-		fprintf(stdout, "\n");
+		fw.write("\n");
 	}
 	
 	public static boolean k_shell(CTX konoha) { //"shell" is already exist
@@ -159,7 +160,7 @@ public class Konoha {
 	}
 	
 	public static void close(CTX konoha) {
-		kcontext_free((CTX_t)konoha, (kcontext_t*)konoha);
+		kcontext_free(konoha, (kcontext_t*)konoha);
 	}
 
 }
