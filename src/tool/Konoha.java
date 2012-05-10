@@ -23,7 +23,7 @@ public class Konoha {
 			ret = load(konoha, args[scriptidx]);
 		}
 		if(ret && true /* TODO interactive_flag */) {
-			ret = shell(konoha)
+			ret = k_shell(konoha);
 		}
 		close(konoha);
 		// MODGC_check_malloced_size()
@@ -146,6 +146,7 @@ public class Konoha {
 			}
 		}
 		fw.write("\n");
+		fw.close();
 	}
 	
 	public static boolean k_shell(CTX konoha) { //"shell" is already exist
