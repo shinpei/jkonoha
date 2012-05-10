@@ -104,7 +104,7 @@ public class Konoha {
 		kwb_t wb;
 		kwb_init((_ctx.stack.cwb), wb);
 		kline_t uline = FILEID_("(shell)") | 1;
-		while(1) {
+		while(true) {
 			kline_t inc = 0;
 			kstatus_t status = readstmt(ctx, wb, inc);
 			if(status == K_CONTINUE && kwb_bytesize(wb) > 0) {
@@ -121,7 +121,8 @@ public class Konoha {
 			}
 		}
 		kwb_free(wb);
-		fprintf(stdout, "\n");
+		FileWriter fw = new FileWriter(stdout);
+		fw.write(stdout + "\n");
 		return;
 	}
 	
