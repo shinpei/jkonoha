@@ -56,8 +56,7 @@ public class Konoha {
 			path = System.getenv("HOME");
 			local = "/.konoha2/script";
 		}
-		buf = path + local + "/" + startup_script + ".k\0";
-		/*snprintf(buf, sizeof(buf), "%s%s/%s.k", path, local, startup_script);*/
+		buf = path + local + "/" + startup_script + ".k";
 		if(!load(konoha, buf)) {
 			System.exit(1);
 		}
