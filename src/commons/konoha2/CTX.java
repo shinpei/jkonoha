@@ -1,6 +1,7 @@
 package commons.konoha2;
 
 import java.util.*;
+import commons.konoha2.kclass.*;
 
 public final class CTX {
 

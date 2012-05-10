@@ -76,7 +76,7 @@ public final class Tokenizer { // not original
 		fmat[_UALPHA] = new ParseUSYMBOL();
 		fmat[_LALPHA] = new ParseSYMBOL();
 		fmat[_MULTI] = new ParseMSYMBOL();
-		fmat[_NL] = new ParseMSYMBOL();
+		fmat[_NL] = new ParseNL();
 		fmat[_TAB] = new ParseSKIP();
 		fmat[_SP] = new ParseSKIP();
 		fmat[_LPAR] = new ParseOP1();
@@ -136,6 +136,10 @@ public final class Tokenizer { // not original
 		// TODD ks = null ? fmat = MiniKonohaTokenMatrix() : KKonohaSpace.tokenizerMatrix();
 		TEnv tenv = new TEnv(source, uline, a, 4, fmat);
 		tokenize(ctx, tenv);
+//		System.out.println("hoge");
+//		System.out.println(a.size());
+//		System.out.println(a.get(0).text.text);
+//		System.out.println(a.get(0).tt);
 		//System.out.println(tenv.list.get(0).text.text);
 		if(tenv.uline == 0) {
 			for(i = pos; i < a.size(); i++) {

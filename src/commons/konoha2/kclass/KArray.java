@@ -12,8 +12,8 @@ import java.util.*;
 
 public final class KArray<T> extends KObject {
 	
-	private ArrayList<T> list;
-	
+	public ArrayList<T> list;
+
 	public KArray() {
 		this.list = new ArrayList<T>();
 	}

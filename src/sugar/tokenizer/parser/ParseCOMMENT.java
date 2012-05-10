@@ -22,7 +22,11 @@ public final class ParseCOMMENT implements FTokenizer {
 			// tenv->uline >>= (sizeof(kshort_t)*8);
 			// tenv->uline = (tenv->uline<<(sizeof(kshort_t)*8)) | (kshort_t)strtoll(tenv->source + pos + 2, NULL, 10);
 		}
-		while((ch = tenv.source.charAt(pos++)) != 0) {
+//		while((ch = tenv.source.charAt(pos++)) != 0) {
+		while(true) {
+			pos++;
+			if(pos >= tenv.source.length()) break;
+			if((ch = tenv.source.charAt(pos)) == 0) break;
 			if(ch == '\n') {
 				tenv.uline += 1;
 			}

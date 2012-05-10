@@ -16,7 +16,11 @@ public final class ParseINDENT implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int pos, KMethod thunk) {
 		int ch, c = 0;
-		while((ch = tenv.source.charAt(pos++)) != 0) {
+//		while((ch = tenv.source.charAt(pos++)) != 0) {
+		while(true) {
+			pos++;
+			if(pos >= tenv.source.length()) break;
+			if((ch = tenv.source.charAt(pos)) == 0) break;
 			if(ch == '\t') { c += tenv.indent_tab; }
 			else if(ch == ' ') { c += 1; }
 			break;

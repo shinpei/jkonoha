@@ -20,7 +20,6 @@ public final class ParseOP1 implements FTokenizer {
 		if(CTX.IS_NOTNULL(tk)) {
 			String s = tenv.source.substring(tok_start);
 			tk.text = new KString(s.substring(0, 1)); // KSETv(tk->text, new_kString(s, 1, SPOL_ASCII|SPOL_POOL));
-			System.out.println(tk.text.text);
 			tk.tt = KToken.TK_OPERATOR;
 			tk.topch = s.charAt(tok_start);
 		}

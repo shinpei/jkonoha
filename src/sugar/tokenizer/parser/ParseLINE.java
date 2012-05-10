@@ -16,10 +16,13 @@ public final class ParseLINE implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
 		int ch, pos = tok_start;
-		while((ch = tenv.source.charAt(pos++)) != 0) {
-			System.out.println(tk.text.text);
+//		while((ch = tenv.source.charAt(pos++)) != 0) {
+		while(true) {
+			pos++;
+			if((ch = tenv.source.charAt(pos)) == 0) break;
 			if(ch == '\n') break;
 		}
-		return pos - 1;/*EOF*/
+//		return pos - 1;/*EOF*/
+		return pos;/*EOF*/
 	}
 }
