@@ -1,8 +1,14 @@
 package sugar.tokenizer;
 
 import commons.konoha2.kclass.*;
-import commons.sugar.KKonohaSpace;
+
 import sugar.*;
+
+/**
+ * tenv_t in original konoha2  
+ * @author okachin
+ *
+ */
 
 public class TEnv {
 	
@@ -21,6 +27,12 @@ public class TEnv {
 		this.indent_tab = indent_tab;
 		this.fmat = fmat;
 	}
+	
+	/**
+	 * This method is used to know the position of line.
+	 * @param int pos
+	 * @return int
+	 */
 	
 	public final int lpos(int pos) {
 		return (this.bol == 0) ? -1 : (int)(pos - this.bol);

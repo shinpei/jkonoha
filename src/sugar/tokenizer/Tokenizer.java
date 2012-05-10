@@ -1,22 +1,39 @@
 package sugar.tokenizer;
 
-import commons.konoha2.*;
-
-import commons.konoha2.kclass.*;
-import commons.sugar.KKonohaSpace;
-import sugar.*;
-import sugar.tokenizer.TEnv.*;
+import sugar.KToken;
 import sugar.tokenizer.parser.*;
+import commons.konoha2.*;
+import commons.konoha2.kclass.*;
+
+/**
+ * This class is used for tokenize
+ * @author okachin
+ *
+ */
 
 public final class Tokenizer { // not original
+	
+	/**
+	 * This method is used to reduce character code.
+	 * @param String t
+	 * @param int pos
+	 * @return
+	 */
 	
 	public static final int kchar(String t, int pos) {
 		int ch = t.charAt(pos);
 		return (ch < 0) ? _MULTI : cMatrix[ch];
 	}	
 	
-	private static void tokenize(CTX ctx, TEnv tenv) {
+	/**
+	 * This method is used to tokenize.
+	 * @param CTX ctx
+	 * @param TEnv tenv
+	 */
+	
+	private static final void tokenize(CTX ctx, TEnv tenv) {
 		int ch, pos = 0;
+		FTokenizer fmat[] = tenv.fmat;
 		KToken tk = new KToken(); // TODO
 		assert tk.tt == 0;
 		tk.uline = tenv.uline;
@@ -29,7 +46,7 @@ public final class Tokenizer { // not original
 				tk.uline = tenv.uline;
 				tk.lpos = tenv.lpos(pos);
 			}
-			int pos2 = FTokenize.MiniKonohaTokenMatrix(ctx, tk, tenv, pos, null, ch);
+			int pos2 = fmat[ch].parse(ctx, tk, tenv, pos, null);
 			assert pos2 > pos;
 			pos = pos2;
 		}
@@ -37,6 +54,11 @@ public final class Tokenizer { // not original
 			tenv.list.add(tk);
 		}
 	}
+	
+	/**
+	 * This method is return MiniKonohaTokenMatrix in original konoha2.
+	 * @return FTokenizer[]
+	 */
 	
 	public static FTokenizer[] MiniKonohaTokenMatrix() {
 		FTokenizer[] fmat = new FTokenizer[KCHAR_MAX];
@@ -84,9 +106,20 @@ public final class Tokenizer { // not original
 		return fmat;
 	}
 	
+	/**
+	 * This method is used to tokenize. It will be moved to KKonohaSpace class.
+	 * @param CTX ctx
+	 * @param KKonohaSpace ks
+	 * @param String source
+	 * @param int uline
+	 * @param KArray<KToken> a
+	 */
+	
 	public static void ktokenize(CTX ctx, KKonohaSpace ks, String source, int uline, KArray<KToken> a) {
 		int i, pos = a.size();
 		FTokenizer fmat[];
+		fmat = MiniKonohaTokenMatrix();
+		// TODD ks = null ? fmat = MiniKonohaTokenMatrix() : KKonohaSpace.tokenizerMatrix();
 		TEnv tenv = new TEnv(source, uline, a, 4, fmat);
 		tokenize(ctx, tenv);
 		//System.out.println(tenv.list.get(0).text.text);

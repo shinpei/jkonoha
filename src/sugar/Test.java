@@ -1,7 +1,9 @@
 package sugar;
 
+import sugar.tokenizer.*;
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
+import commons.sugar.KKonohaSpace;
 
 class Test {
 	public static void main(String[] args) {
@@ -12,7 +14,8 @@ class Test {
 //		String source = "a b";
 		int uline = 0;
 		KArray<KToken> a = new KArray<KToken>();
-		Tokenizer.ktokenize(ctx, source, uline, a);
+		KKonohaSpace ks = new KKonohaSpace();
+		Tokenizer.ktokenize(ctx, ks, source, uline, a);
 		for(int i = 0; i < a.size(); i++) {
 //			System.out.println(a.get(i).text.text);
 			System.out.println(a.get(i).tt);
