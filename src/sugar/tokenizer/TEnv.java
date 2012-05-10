@@ -5,11 +5,11 @@ import sugar.*;
 
 public class TEnv {
 	
-	String source;
-	int uline;
-	KArray<KToken> list;
-	int bol;   // begin of line
-	int indent_tab;
+	public String source;
+	public int uline;
+	public KArray<KToken> list;
+	public int bol;   // begin of line
+	public int indent_tab;
 	
 	TEnv(String source, int uline, KArray<KToken> a, int indent_tab) {
 		this.source = source;

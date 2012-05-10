@@ -1,4 +1,4 @@
-package sugar;
+package sugar.tokenizer;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
