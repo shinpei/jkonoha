@@ -3,21 +3,23 @@ package tool;
 //import sun.net.dns.ResolverConfiguration.Options;
 import commons.konoha2.*;
 import java.io.*;
+import java.net.CacheRequest;
 
 public class Konoha {
-	public static final int K_PAGESIZE = 4096;
+	private static Writer stdlog;//only used only in test.
+	public static final int K_PAGESIZE = 4096;//MACRO
 	
-	public static int compileonly_flag = 0; //global variable
-	public static int interactive_flag = 0; //global variable
+	public static int compileonlyFlag = 0; //global variable
+	public static int interactiveFlag = 0; //global variable
 	
-	public static int verbose_debug = 0;	//global variable
-	public static int verbose_gc	= 0;	//global variable
-	public static int verbose_sugar = 0;	//global variable
-	public static int verbose_code	= 0;	//global variable
+	public static int verboseDebug = 0;	//global variable
+	public static int verboseGc	= 0;	//global variable
+	public static int verboseSugar = 0;	//global variable
+	public static int verboseCode	= 0;	//global variable
 
-	public static String builtin_test		= null;	//global variable
-	public static String test_script		= null;	//global variable
-	public static String startup_script		= null;	//global variable
+	public static String builtinTest		= null;	//global variable
+	public static String testScript		= null;	//global variable
+	public static String startupScript		= null;	//global variable
 	
 	public static String optarg;//TODO import gnu.getopt.Getopt; in ginit()
 	public static int optind;//TODO import gnu.getopt.Getopt; in ginit();
@@ -31,7 +33,7 @@ public class Konoha {
 		boolean ret = true;
 		int scriptidx = ginit(args);
 		if(true /* TODO builtin_test != NULL */) {
-			System.exit(builtin_test("hoge" /* TODO builtin_test */));
+			System.exit(builtinTest("hoge" /* TODO builtin_test */));
 		}
 		if(true /* TODO test_script != NULL */) {
 			System.exit(test("hoge" /* TODO test_script */));
@@ -54,83 +56,143 @@ public class Konoha {
 
 	public static int ginit(String[] args) {
 		if (System.getenv("KONOHA_DEBUG") != null) {
-			verbose_debug = 1;
-			verbose_gc = 1;
-			verbose_sugar = 1;
-			verbose_code = 1;
+			verboseDebug = 1;
+			verboseGc = 1;
+			verboseSugar = 1;
+			verboseCode = 1;
 		}
 		//TODO Getopt options = new Getopt(long_options/*TODO long_options(struct)*/, args, "icI:S:");
 		//TODO import gnu.getopt.Getopt;
 		while (true) {
-			int option_index = 0;
-			int c = option_index;//TODO options.getopt();
+			int optionIndex = 0;
+			int c = optionIndex;//TODO options.getopt();
 			if (c == -1) break; /*Detect the end of the options.*/
 			switch (c) {
 			case 0://TODO
 				/* If this option set a flag, do nothing else now. */
 			case 'c':
-				compileonly_flag = 1;
+				compileonlyFlag = 1;
 				break;
 			case 'i':
-				interactive_flag = 1;
+				interactiveFlag = 1;
 				break;
 			case 'B':
-				builtin_test = optarg;
+				builtinTest = optarg;
 				break;
 			case 'S':
-				startup_script = optarg;
+				startupScript = optarg;
 				break;
 			case 'T':
-				test_script = optarg;
+				testScript = optarg;
 				break;
 			case '?':
 				break;
 			default:
-				//TODO abort ();
-				break;
+			//CacheRequest.abort(); TODO needs override?
 			}
 		}
 		if (optind < args.length) {
-			interactive_flag = 1;
+			interactiveFlag = 1;
 		}
 		return optind;
 	}
 	
 	
-	public static int builtin_test(String name) {//TODO
+	public static int builtinTest(String name) {//TODO How to do #ifdef, #else, #endif
+	/*
+	#ifdef USE_BUILTINTEST
+		Ftest f = lookupTestFunc(KonohaTestSet, name);
+		if(f != NULL) {
+			konoha_t konoha = konoha_open();
+			int ret = f((CTX_t)konoha);
+			konoha_close(konoha);
+			return ret;
+		}
+		fprintf(stderr, "Built-in test is not found: '%s'\n", name);
+	#else
+		fprintf(stderr, "Built-in tests are not built; rebuild with -DUSE_BUILTINTEST\n");
+	#endif
+		return 1;
+	*/
+		try {
+		FileWriter stderr = new FileWriter("./stderr");
+		stderr.write("Built-in tests are not built; rebuild with -DUSE_BUILTINTEST" + name);
+		} catch (IOException e) {
+			System.out.println(e + "Exception occured");
+		}
 		return 1;
 	}
 	
-	public static int test(String testname) {
+	public static int test(String testname) throws IOException {
 		//reduced error message
-		verbose_debug	= 0;
-		verbose_sugar	= 0;
-		verbose_gc 		= 0;
-		verbose_code	= 0;
+		verboseDebug	= 0;
+		verboseSugar	= 0;
+		verboseGc 		= 0;
+		verboseCode	= 0;
 		CTX konoha = new CTX();//TODO konoha_t(CTX) konoha = konoha_open();
-		if (startup_script != null) {
-			startup (konoha, startup_script);
+		if (startupScript != null) {
+			startup (konoha, startupScript);
 		}
 		int ret = 0;//OK
-		//TODO snprintf
-		String[] script_file = new String[256];
-		String[] correct_file = new String[256];
-		String[] result_file = new String[256];
-		/*snprintf(script_file, 256, "%s", testname);
-		snprintf(correct_file, 256, "%s.proof", script_file);
-		snprintf(result_file, 256, "%s.tested", script_file);*/
-		//TODO ファイルの書き込み
-		try {
-			FileWriter fp = new FileWriter(testname);
-			fp.write(script_file);//TODO
-			fp.close();
-		} catch (IOException e) {
-			System.out.println (e + "Exception occured");
+		String scriptFile = new String(testname);
+		String correctFile = new String(scriptFile);
+		String resultFile = new String(scriptFile);
+		
+		FileReader fp = new FileReader(correctFile);
+		stdlog.write(resultFile);
+		//TODO ((struct _klib2*)konoha->lib2)->Kreport  = Kreport;
+		//TODO ((struct _klib2*)konoha->lib2)->Kreportf = Kreportf;
+		load(konoha, "Q.E.D.\n");//Q.E.D.
+		stdlog.close();
+		if (fp != null) { //TODO Not need?
+		FileReader fp2 = new FileReader (resultFile);
+		ret = checkResult(fp, fp2);
+		if (ret == 0)
+			stdout.write("[PASS]:" + testname + "\n");//TODO How to do stdout?
+		fp.close();
+		fp2.close();
+		} else {
+			ret = 1;
 		}
-		//TODO
-		return 1;
+		konohaClose(konoha);//TODO
+		return ret;
 	}
-	
+	public void Kreport (CTX _ctx, String msg) throws IOException {//used in test
+		stdlog.flush ();
+		stdlog.write("-");
+		stdlog.write(msg);
+		stdlog.write("\n");
+	}
+	public void Kreportf (CTX _ctx, int level,/*TODO kline_t pline,*/String fmt) throws IOException {
+		//used in test
+		if (level == 5/*TODO DEBUG_*/ && !(verboseSugar == 0) ) return;
+		/*va_list ap; TODO
+		va_start(ap , fmt);*/
+		
+		stdlog.flush ();
+		/* TODO
+		if (pline != 0) {
+			String file = T_file(pline);
+			stdlog.write (" - (" + shortName(file) + ":" + (kushort_t)pline + ")" + T_ERR(level) );
+		} else {
+			stdlog.write(" - " + T_ERR(level) );
+		}
+		*/
+		stdlog.write(fmt);
+		stdlog.write("\n");
+		
+		//va_end(ap);
+		if (level == 0/*TODO CRIT_*/) {
+			//TODO kraise(0);
+		}
+	}
+	public static int checkResult(FileReader fp0, FileReader fp1) {//used in test. Compare fp0 between fp1
+		//TODO
+		if ( fp0.equals(fp1) )
+			return 0;
+		else
+			return 1;//FAILED
+	}
 	public static CTX open() {
 		init();
 		return new_context (null, K_PAGESIZE * 8);
@@ -167,8 +229,9 @@ public class Konoha {
 			newctx.modshare = _ctx.modshare;
 			newctx.modlocal = _ctx.modlocal;
 		}
-		KRUNTIME_init(_ctx, newctx, stacksize);//TODO below↓ KRUNTIME_init method
-		/*if (IS_ROOTCTX(newctx)) {//TODO porting the method
+		//TODO porting the method
+		/*KRUNTIME_init(_ctx, newctx, stacksize);
+		if (IS_ROOTCTX(newctx)) {
 			MODCODE_init(_ctx, newctx);
 			MODSUGAR_init(_ctx, newctx);
 			KCLASSTABLE_loadMethod(_ctx);
@@ -176,11 +239,7 @@ public class Konoha {
 		}*/
 		return newctx;
 	}
-	public static void KRUNTIME_init (CTX _ctx, CTX ctx, int stacksize) {//used in new_context
-		int i;
-		//TODO kstack_t *base = (kstack_t*)KCALLOC(sizeof(kstack_t), 1);
-		
-	}
+
 	public static void startup(CTX konoha, String startup_script) {
 		String[] buf = new String[256];
 		String path = System.getenv("KONOHA_SCRIPTPATH");
@@ -188,7 +247,7 @@ public class Konoha {
 		if (path == null) {
 			path = System.getenv("KONOHA_HOME");
 			local = "/script";
-		}
+		}	
 		if (path == null) {
 			path = System.getenv("HOME");
 			local = "/.konoha/script";
