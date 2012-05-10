@@ -8,7 +8,7 @@ import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
 import commons.konoha2.kclass.KString;
 
-final class ParseOP implements FTokenizer {
+public final class ParseOP implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
 	

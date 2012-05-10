@@ -1,9 +1,12 @@
 package sugar.tokenizer;
 
 import commons.konoha2.*;
+
 import commons.konoha2.kclass.*;
+import commons.sugar.KKonohaSpace;
 import sugar.*;
 import sugar.tokenizer.TEnv.*;
+import sugar.tokenizer.parser.*;
 
 public final class Tokenizer { // not original
 	
@@ -18,8 +21,8 @@ public final class Tokenizer { // not original
 		assert tk.tt == 0;
 		tk.uline = tenv.uline;
 		tk.lpos = tenv.lpos(0);
-		pos = FTokenize.parseINDENT(ctx, tk, tenv, pos, null);
-		while(pos < tenv.source.length() && (ch = FTokenize.kchar(tenv.source, pos)) != 0) {
+		pos = new ParseINDENT().parse(ctx, tk, tenv, pos, null);
+		while(pos < tenv.source.length() && (ch = kchar(tenv.source, pos)) != 0) {
 			if(tk.tt != 0) {
 				tenv.list.add(tk);
 				tk = new KToken(); // TODO
@@ -35,9 +38,56 @@ public final class Tokenizer { // not original
 		}
 	}
 	
-	public static void ktokenize(CTX ctx, String source, int uline, KArray<KToken> a) {
+	public static FTokenizer[] MiniKonohaTokenMatrix() {
+		FTokenizer[] fmat = new FTokenizer[KCHAR_MAX];
+		fmat[_NULL] = new ParseSKIP();
+		fmat[_UNDEF] = new ParseSKIP();
+		fmat[_DIGIT] = new ParseNUM();
+		fmat[_UALPHA] = new ParseUSYMBOL();
+		fmat[_LALPHA] = new ParseSYMBOL();
+		fmat[_MULTI] = new ParseMSYMBOL();
+		fmat[_NL] = new ParseMSYMBOL();
+		fmat[_TAB] = new ParseSKIP();
+		fmat[_SP] = new ParseSKIP();
+		fmat[_LPAR] = new ParseOP1();
+		fmat[_RPAR] = new ParseOP1();
+		fmat[_LSQ] = new ParseOP1();
+		fmat[_RSQ] = new ParseOP1();
+		fmat[_LBR] = new ParseBLOCK();
+		fmat[_RBR] = new ParseOP1();
+		fmat[_LT] = new ParseOP();
+		fmat[_GT] = new ParseOP();
+		fmat[_QUOTE] = new ParseUNDEF();
+		fmat[_DQUOTE] = new ParseDQUOTE();
+		fmat[_BKQUOTE] = new ParseDQUOTE();
+		fmat[_OKIDOKI] = new ParseOP();
+		fmat[_SHARP] = new ParseOP();
+		fmat[_DOLLAR] = new ParseOP();
+		fmat[_PER] = new ParseOP();
+		fmat[_AND] = new ParseOP();
+		fmat[_STAR] = new ParseOP();
+		fmat[_PLUS] = new ParseOP();
+		fmat[_COMMA] = new ParseOP1();
+		fmat[_MINUS] = new ParseOP();
+		fmat[_DOT] = new ParseOP();
+		fmat[_SLASH] = new ParseSLASH();
+		fmat[_COLON] = new ParseOP();
+		fmat[_SEMICOLON] = new ParseOP1();
+		fmat[_EQ] = new ParseOP();
+		fmat[_QUESTION] = new ParseOP();
+		fmat[_AT] = new ParseOP1();
+		fmat[_VAR] = new ParseOP();
+		fmat[_CHILDER] = new ParseOP();
+		fmat[_BKSLASH] = new ParseUNDEF();
+		fmat[_HAT] = new ParseOP();
+		fmat[_UNDER] = new ParseSYMBOL();
+		return fmat;
+	}
+	
+	public static void ktokenize(CTX ctx, KKonohaSpace ks, String source, int uline, KArray<KToken> a) {
 		int i, pos = a.size();
-		TEnv tenv = new TEnv(source, uline, a, 4);
+		FTokenizer fmat[];
+		TEnv tenv = new TEnv(source, uline, a, 4, fmat);
 		tokenize(ctx, tenv);
 		//System.out.println(tenv.list.get(0).text.text);
 		if(tenv.uline == 0) {
@@ -89,7 +139,7 @@ public final class Tokenizer { // not original
 	public static final int _BKSLASH = 38;
 	public static final int _HAT = 39;
 	public static final int _UNDER = 40;
-	public static final int _KCHAR_MAX = 41;
+	public static final int KCHAR_MAX = 41;
 	
 	public static final char[] cMatrix = {
 	0/*nul*/, 1/*soh*/, 1/*stx*/, 1/*etx*/, 1/*eot*/, 1/*enq*/, 1/*ack*/, 1/*bel*/,
@@ -124,6 +174,8 @@ public final class Tokenizer { // not original
 	_LALPHA, _LALPHA, _LALPHA, _LBR, _VAR, _RBR, _CHILDER, 1,
 	};	
 }
+	
+
 
 /*final class ParseSyntaxRule {
 	

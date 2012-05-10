@@ -2,9 +2,6 @@ package sugar.tokenizer.parser;
 
 import sugar.KToken;
 import sugar.tokenizer.FTokenizer;
-import sugar.tokenizer.ParseCOMMENT;
-import sugar.tokenizer.ParseLINE;
-import sugar.tokenizer.ParseOP;
 import sugar.tokenizer.TEnv;
 
 import commons.konoha2.CTX;

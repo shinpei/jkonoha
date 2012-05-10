@@ -1,9 +1,7 @@
 package sugar.tokenizer.parser;
 
 import sugar.KToken;
-import sugar.tokenizer.FTokenizer;
-import sugar.tokenizer.MiniKonohaTokenMatrix;
-import sugar.tokenizer.TEnv;
+import sugar.tokenizer.*;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
@@ -13,9 +11,10 @@ public final class ParseBLOCK implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
 		int ch, level = 1, pos = tok_start + 1;
+		FTokenizer[] fmat = tenv.fmat;
 		tk.lpos += 1;
-		while((ch = MiniKonohaTokenMatrix.kchar(tenv.source, pos)) != 0) {
-			if(ch == MiniKonohaTokenMatrix._RBR/*}*/) {
+		while((ch = Tokenizer.kchar(tenv.source, pos)) != 0) {
+			if(ch == Tokenizer._RBR/*}*/) {
 				level--;
 				if(level == 0) {
 					if(tk != null /* CTX.IS_NOTNULL(tk) */) {
@@ -27,11 +26,11 @@ public final class ParseBLOCK implements FTokenizer {
 				}
 				pos++;
 			}
-			else if(ch == MiniKonohaTokenMatrix._LBR/*'{'*/) {
+			else if(ch == Tokenizer._LBR/*'{'*/) {
 				level++; pos++;
 			}
 			else {
-				pos = MiniKonohaTokenMatrix.parser[ch].parse(ctx, /* TODO K_NULLTOKEN*/null, tenv, pos, null);
+				pos = fmat[ch].parse(ctx, /* TODO K_NULLTOKEN*/null, tenv, pos, null);
 			}
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
