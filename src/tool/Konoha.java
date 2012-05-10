@@ -97,7 +97,7 @@ public class Konoha {
 			linebuf.append(ch);
 			pos++;
 		}
-		if(ch == -1) return null; //TODO while(ch == EOF)
+		if(ch == -1) return null; //TODO if(ch == EOF)
 		String p = new String(linebuf);
 		return p;
 	}
@@ -110,25 +110,25 @@ public class Konoha {
 	static void shell(CTX)
 	{
 		kwb_t wb;
-		kwb_init(&(_ctx->stack->cwb), &wb);
+		kwb_init((_ctx.stack.cwb), wb);
 		kline_t uline = FILEID_("(shell)") | 1;
 		while(1) {
 			kline_t inc = 0;
-			kstatus_t status = readstmt(_ctx, &wb, &inc);
-			if(status == K_CONTINUE && kwb_bytesize(&wb) > 0) {
-				status = konoha_eval((konoha_t)_ctx, kwb_top(&wb, 1), uline);
+			kstatus_t status = readstmt(_ctx, wb, inc);
+			if(status == K_CONTINUE && kwb_bytesize(wb) > 0) {
+				status = konoha_eval((konoha_t)_ctx, kwb_top(wb, 1), uline);
 				uline += inc;
-				kwb_free(&wb);
+				kwb_free(wb);
 				if(status != K_FAILED) {
-					dumpEval(_ctx, &wb);
-					kwb_free(&wb);
+					dumpEval(_ctx, wb);
+					kwb_free(wb);
 				}
 			}
 			if(status == K_BREAK) {
 				break;
 			}
 		}
-		kwb_free(&wb);
+		kwb_free(wb);
 		fprintf(stdout, "\n");
 		return;
 	}
@@ -147,7 +147,7 @@ public class Konoha {
 		fprintf(stdout, "\n");
 	}
 	
-	public static boolean konoha_shell(CTX konoha) { //"shell" is already exist
+	public static boolean k_shell(CTX konoha) { //"shell" is already exist
 		void *handler = dlopen("libreadline" K_OSDLLEXT, RTLD_LAZY);
 		void *f = (handler != NULL) ? dlsym(handler, "readline") : null;
 		kreadline = (f != NULL) ? (char* (*)(const char*))f : readline;
