@@ -63,13 +63,6 @@ public class Konoha {
 		
 	}
 	
-	public static boolean load(CTX konoha, String scriptname) {
-		BEGIN_(konoha);
-		boolean res = (MODSUGAR_loadscript((CTX_t)konoha, scriptname, strlen(scriptname), 0) == K_CONTINUE);
-		END_(konoha);
-		return res;
-	}
-	
 /*	public static String readline(String prompt)
 	{
 		static int checkCTL = 0;
