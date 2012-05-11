@@ -1,13 +1,17 @@
 package test;
 
 import sugar.KToken;
+
 import sugar.tokenizer.*;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 import commons.sugar.KKonohaSpace;
 
+//import org.apache.log4j.*;
+
 class Test {
+	
 	public static void main(String[] args) {
 		CTX ctx = new CTX();
 		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";

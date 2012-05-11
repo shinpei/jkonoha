@@ -120,11 +120,6 @@ public final class Tokenizer { // not original
 		// TODD ks = null ? fmat = MiniKonohaTokenMatrix() : KKonohaSpace.tokenizerMatrix();
 		TEnv tenv = new TEnv(source, uline, a, 4, fmat);
 		tokenize(ctx, tenv);
-//		System.out.println("hoge");
-//		System.out.println(a.size());
-//		System.out.println(a.get(0).text.text);
-//		System.out.println(a.get(0).tt);
-		//System.out.println(tenv.list.get(0).text.text);
 		if(tenv.uline == 0) {
 			for(i = pos; i < a.size(); i++) {
 				a.get(i).uline = 0;
