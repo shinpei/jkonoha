@@ -23,7 +23,6 @@ public final class ParseSLASH implements FTokenizer {
 		if(ts.charAt(1) == '*') {
 			return new ParseCOMMENT().parse(ctx, tk, tenv, tok_start, thunk);
 		}
-		ParseOP po = new ParseOP();
-		return po.parse(ctx, tk, tenv, tok_start, thunk);
+		return new ParseOP().parse(ctx, tk, tenv, tok_start, thunk);
 	}	
 }

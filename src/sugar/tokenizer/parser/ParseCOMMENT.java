@@ -32,7 +32,8 @@ public final class ParseCOMMENT implements FTokenizer {
 			}
 			if(prev == '*'  && ch == '/') {
 				level--;
-				if(level == 0) return pos;
+//				if(level == 0) return pos;
+				if(level == 0) return pos + 1;
 			} else if(prev == '/' && ch == '*') {
 				level++;
 			}
@@ -43,6 +44,7 @@ public final class ParseCOMMENT implements FTokenizer {
 			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "must close with */");
 			// KToken.Token_toERR(ctx, tk, errref);
 		}
-		return pos - 1;/*EOF*/
+//		return pos - 1;/*EOF*/
+		return pos;/*EOF*/
 	}
 }

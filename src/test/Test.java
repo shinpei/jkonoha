@@ -1,6 +1,8 @@
-package sugar;
+package test;
 
+import sugar.KToken;
 import sugar.tokenizer.*;
+
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 import commons.sugar.KKonohaSpace;
@@ -8,12 +10,7 @@ import commons.sugar.KKonohaSpace;
 class Test {
 	public static void main(String[] args) {
 		CTX ctx = new CTX();
-//		String source = " < + > ";
-//		String source = "a + b + 3 + 4 ";
-//		String source = "ab cd ";
-		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd";
-//		String source = "a + b ";
-//		String source = "a b";
+		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
 		int uline = 0;
 		KArray<KToken> a = new KArray<KToken>();
 		KKonohaSpace ks = new KKonohaSpace();
