@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.CacheRequest;
 
 public class Konoha {
+	
 	private static Writer stdlog;//only used only in test.
 	public static final int K_PAGESIZE = 4096;//MACRO
 	
