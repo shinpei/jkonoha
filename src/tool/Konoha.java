@@ -1,23 +1,14 @@
 package tool;
 
 import commons.konoha2.*;
-<<<<<<< HEAD
 import java.io.*;
-
-import tool.Dummy.*;
-=======
->>>>>>> master
 
 public class Konoha {
 
 	public static void main(String[] args) {
 		int scriptidx; // to global
 		boolean ret = true;
-<<<<<<< HEAD
 		scriptidx = ginit(args);
-=======
-		int scriptidx = ginit(args);
->>>>>>> master
 		if(true /* TODO builtin_test != NULL */) {
 			System.exit(builtin_test("hoge" /* TODO builtin_test */));
 		}
@@ -32,17 +23,12 @@ public class Konoha {
 			ret = load(konoha, args[scriptidx]);
 		}
 		if(ret && true /* TODO interactive_flag */) {
-<<<<<<< HEAD
 			ret = k_shell(konoha);
-=======
-			ret = shell(konoha)
->>>>>>> master
 		}
 		close(konoha);
 		// MODGC_check_malloced_size()
 		System.exit(ret ? 1/* TODO assertResult */ : 1);
 	}
-<<<<<<< HEAD
 
 	public static int ginit(String[] args) {
 		return 0;
@@ -171,39 +157,6 @@ public class Konoha {
 
 	public static void close(CTX konoha) {
 		kcontext_free(konoha, (kcontext_t*)konoha);
-=======
-	
-	public static int ginit(String[] args) {
-		
-	}
-	
-	public static int builtin_test(String name) {
-		
-	}
-	
-	public static int test(String testname) {
-		
-	}
-	
-	public static CTX open() {
-		
-	}
-	
-	public static void startup(CTX konoha, String startup_script) {
-		
-	}
-	
-	public static boolean load(CTX konoha, String scriptname) {
-		
-	}
-	
-	public static boolean shell(CTX konoha) {
-		
-	}
-	
-	public static void close(CTX konoha) {
-		
->>>>>>> master
 	}
 
 }
