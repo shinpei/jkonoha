@@ -18,11 +18,9 @@ public final class Tokenizer { // not original
 	/**
 	 * This method is used to reduce character's types to 41 types.
 	 * 
-	 * imported sourcecode
-	 * @param t
-	 * position of sourcecode
-	 * @param pos
-	 * @return int
+	 * @param t imported sourcecode
+	 * @param pos position of sourcecode
+	 * @return character type
 	 */
 	
 	public static final int kchar(String t, int pos) {
@@ -56,7 +54,7 @@ public final class Tokenizer { // not original
 	
 	/**
 	 * This method returns a matrix of parser of each character code.
-	 * @return FTokenizer[]
+	 * @return matrix of parser about each character code
 	 */
 	
 	public static FTokenizer[] MiniKonohaTokenMatrix() {
@@ -108,16 +106,11 @@ public final class Tokenizer { // not original
 	/**
 	 * This method is used to tokenize imported sourcecode.
 	 * 
-	 * contexts of konoha2
-	 * @param ctx
-	 * KonohaSpace
-	 * @param ks
-	 * imported sourcecode
-	 * @param source
-	 * the line on being disposal
-	 * @param uline
-	 * tokens which sourcecode is divided into
-	 * @param a
+	 * @param ctx context of konoha2
+	 * @param ks KonohaSpace class
+	 * @param source imported sourcecode
+	 * @param uline the line on being disposed
+	 * @param a tokens which sourcecode is divided into
 	 */
 	
 	public static void ktokenize(CTX ctx, KKonohaSpace ks, String source, int uline, KArray<KToken> a) {
