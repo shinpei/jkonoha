@@ -28,7 +28,7 @@ public class Konoha {
 								"verbose:code", "interactive", "typecheck", 
 								"start-with", "test", "test-with", "builtin-test", "NULL" };
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		//int scriptidx; // to global
 		boolean ret = true;
 		int scriptidx = ginit(args);
@@ -140,8 +140,8 @@ public class Konoha {
 		
 		FileReader fp = new FileReader(correctFile);
 		stdlog.write(resultFile);
-		//TODO ((struct _klib2*)konoha->lib2)->Kreport  = Kreport;
-		//TODO ((struct _klib2*)konoha->lib2)->Kreportf = Kreportf;
+		//TODO ((struct _klib2*)konoha->lib2)->Kreport  = kreport;
+		//TODO ((struct _klib2*)konoha->lib2)->Kreportf = kreportf;
 		load(konoha, "Q.E.D.\n");//Q.E.D.
 		stdlog.close();
 		if (fp != null) { //TODO Not need?
@@ -157,13 +157,13 @@ public class Konoha {
 		konohaClose(konoha);//TODO
 		return ret;
 	}
-	public void Kreport (CTX _ctx, String msg) throws IOException {//used in test
+	public void kreport (CTX _ctx, String msg) throws IOException {//used in test
 		stdlog.flush ();
 		stdlog.write("-");
 		stdlog.write(msg);
 		stdlog.write("\n");
 	}
-	public void Kreportf (CTX _ctx, int level,/*TODO kline_t pline,*/String fmt) throws IOException {
+	public void kreportf (CTX _ctx, int level,/*TODO kline_t pline,*/String fmt) throws IOException {
 		//used in test
 		if (level == 5/*TODO DEBUG_*/ && !(verboseSugar == 0) ) return;
 		/*va_list ap; TODO
