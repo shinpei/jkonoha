@@ -3,12 +3,14 @@ package tool;
 import commons.konoha2.*;
 import java.io.*;
 
+import tool.Dummy.*;
+
 public class Konoha {
 
 	public static void main(String[] args) {
 		int scriptidx; // to global
 		boolean ret = true;
-		int scriptidx = ginit(args);
+		scriptidx = ginit(args);
 		if(true /* TODO builtin_test != NULL */) {
 			System.exit(builtin_test("hoge" /* TODO builtin_test */));
 		}
@@ -29,23 +31,25 @@ public class Konoha {
 		// MODGC_check_malloced_size()
 		System.exit(ret ? 1/* TODO assertResult */ : 1);
 	}
-	
+
 	public static int ginit(String[] args) {
-		
+		return 0;
+
 	}
-	
+
 	public static int builtin_test(String name) {
-		
+		return 0;	
 	}
-	
+
 	public static int test(String testname) {
-		
+		return 0;
 	}
-	
+
 	public static CTX open() {
-		
+		CTX konoha = new CTX();
+		return konoha;
 	}
-	
+
 	public static void startup(CTX konoha, String startup_script) {
 		String buf, path = System.getenv("KONOHA_SCRIPTPATH"), local = "";
 		if(path == null) {
@@ -60,10 +64,10 @@ public class Konoha {
 		if(!load(konoha, buf)) {
 			System.exit(1);
 		}
-		
+
 	}
-	
-/*	public static String readline(String prompt)
+
+	/*	public static String readline(String prompt)
 	{
 		static int checkCTL = 0;
 		int ch, pos = 0;
@@ -98,12 +102,12 @@ public class Konoha {
 	{
 		return 0;
 	}*/
-	
+
 	static void shell(CTX ctx)
 	{
 		kwb_t wb;
-		kwb_init((_ctx.stack.cwb), wb);
-		kline_t uline = FILEID_("(shell)") | 1;
+		kwb_init((ctx.stack.cwb), wb);
+		kline_t uline/* = FILEID_("(shell)") | 1*/;
 		while(true) {
 			kline_t inc = 0;
 			kstatus_t status = readstmt(ctx, wb, inc);
@@ -125,7 +129,7 @@ public class Konoha {
 		fw.write(stdout + "\n");
 		return;
 	}
-	
+
 	static void show_version(CTX ctx)
 	{
 		int i;
@@ -141,7 +145,7 @@ public class Konoha {
 		fw.write("\n");
 		fw.close();
 	}
-	
+
 	public static boolean k_shell(CTX konoha) { //"shell" is already exist
 		void *handler = dlopen("libreadline" K_OSDLLEXT, RTLD_LAZY);
 		void *f = (handler != NULL) ? dlsym(handler, "readline") : null;
@@ -152,7 +156,7 @@ public class Konoha {
 		shell((CTX_t)konoha);//"shell" is here
 		return 1;
 	}
-	
+
 	public static void close(CTX konoha) {
 		kcontext_free(konoha, (kcontext_t*)konoha);
 	}
