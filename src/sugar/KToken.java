@@ -3,6 +3,12 @@ package sugar;
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 
+/**
+ * _kToken in original konoha2
+ * @author okachin
+ *
+ */
+
 public final class KToken extends KObject {
 	
 	public int tt;
