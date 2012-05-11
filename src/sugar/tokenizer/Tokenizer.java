@@ -8,7 +8,7 @@ import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 
 /**
- * This class is used for tokenize
+ * This class is used for tokenize.
  * @author okachin
  *
  */
@@ -16,11 +16,11 @@ import commons.konoha2.kclass.*;
 public final class Tokenizer { // not original
 	
 	/**
-	 * This method is used to reduce character code.
+	 * This method is used to reduce character's types to 41 types.
 	 * 
-	 * sourcecode
+	 * imported sourcecode
 	 * @param t
-	 * position
+	 * position of sourcecode
 	 * @param pos
 	 * @return int
 	 */
@@ -29,15 +29,6 @@ public final class Tokenizer { // not original
 		int ch = t.charAt(pos);
 		return (ch < 0) ? _MULTI : cMatrix[ch];
 	}	
-	
-	/**
-	 * This method is used to tokenize.
-	 * 
-	 * konoha's context
-	 * @param ctx
-	 * source, line, etc...
-	 * @param tenv
-	 */
 	
 	private static final void tokenize(CTX ctx, TEnv tenv) {
 		int ch, pos = 0;
@@ -64,7 +55,7 @@ public final class Tokenizer { // not original
 	}
 	
 	/**
-	 * This method is return MiniKonohaTokenMatrix in original konoha2.
+	 * This method returns a matrix of parser of each character code.
 	 * @return FTokenizer[]
 	 */
 	
@@ -115,17 +106,17 @@ public final class Tokenizer { // not original
 	}
 	
 	/**
-	 * This method is used to tokenize. It will be moved to KKonohaSpace class.
+	 * This method is used to tokenize imported sourcecode.
 	 * 
-	 * konoha's context
+	 * contexts of konoha2
 	 * @param ctx
 	 * KonohaSpace
 	 * @param ks
-	 * sourcecode
+	 * imported sourcecode
 	 * @param source
-	 * which line
+	 * the line on being disposal
 	 * @param uline
-	 * tokens
+	 * tokens which sourcecode is divided into
 	 * @param a
 	 */
 	
