@@ -2,56 +2,64 @@ package tool;
 
 //import sun.net.dns.ResolverConfiguration.Options;
 import commons.konoha2.*;
+
 import java.io.*;
 import java.net.CacheRequest;
 
 public class Konoha {
 	
-	private static Writer stdlog;//only used only in test.
-	public static final int K_PAGESIZE = 4096;//MACRO
+	public static int compileonlyFlag = 0;       // global variable
+	public static int interactiveFlag = 0;       // global variable
 	
-	public static int compileonlyFlag = 0; //global variable
-	public static int interactiveFlag = 0; //global variable
-	
-	public static int verboseDebug = 0;	//global variable
-	public static int verboseGc	= 0;	//global variable
-	public static int verboseSugar = 0;	//global variable
-	public static int verboseCode	= 0;	//global variable
+	public static int verboseDebug = 0;	         //global variable
+	public static int verboseGc	= 0;	         //global variable
+	public static int verboseSugar = 0;	         //global variable
+	public static int verboseCode = 0;	         //global variable
 
-	public static String builtinTest		= null;	//global variable
-	public static String testScript		= null;	//global variable
-	public static String startupScript		= null;	//global variable
+	public static String startupScript = null;	 //global variable
+	public static String builtinTest = null;	 //global variable
+	public static String testScript = null;	     //global variable
 	
-	public static String optarg;//TODO import gnu.getopt.Getopt; in ginit()
-	public static int optind;//TODO import gnu.getopt.Getopt; in ginit();
+	// src/konoha/methods.h
+	public static int assertResult = 0;
+	
+	
+	
+//	private static Writer stdlog; // only used in test.
+//	public static final int K_PAGESIZE = 4096;// MACRO
+
+	
+	
+	public static String optarg; //TODO import gnu.getopt.Getopt; in ginit()
+	public static int optind; //TODO import gnu.getopt.Getopt; in ginit();
 	//TODO make long_options(struct)
 	private static String[] long_options = { "verbose", "verbose:gc", "verbose:sugar", 
 								"verbose:code", "interactive", "typecheck", 
 								"start-with", "test", "test-with", "builtin-test", "NULL" };
 	
+	
 	public static void main(String[] args) throws IOException {
-		//int scriptidx; // to global
 		boolean ret = true;
-		scriptidx = ginit(args);
-		if(true /* TODO builtin_test != NULL */) {
-			System.exit(builtinTest("hoge" /* TODO builtin_test */));
+		int scriptidx = ginit(args);
+		if(builtinTest != null) {
+			System.exit(builtinTest(builtinTest));
 		}
-		if(true /* TODO test_script != NULL */) {
-			System.exit(test("hoge" /* TODO test_script */));
+		if(testScript != null) {
+			System.exit(test(testScript));
 		}
 		CTX konoha = open();
-		if(true /* TODO startup_script != NULL */) {
-			startup(konoha, "hoge" /* TODO startup_script */);
+		if(startupScript != null) {
+			startup(konoha, startupScript);
 		}
 		if(scriptidx < args.length) {
 			ret = load(konoha, args[scriptidx]);
 		}
-		if(ret && true /* TODO interactive_flag */) {
-			ret = k_shell(konoha);
+		if(ret && (interactiveFlag != 0)) {    // TODO interactiveFlag to boolean?
+			ret = kShell(konoha);
 		}
 		close(konoha);
 		// MODGC_check_malloced_size()
-		System.exit(ret ? 1/* TODO assertResult */ : 1);
+		System.exit(ret ? assertResult : 1);
 	}
 
 	public static int ginit(String[] args) {
@@ -65,8 +73,8 @@ public class Konoha {
 		//TODO import gnu.getopt.Getopt;
 		while (true) {
 			int optionIndex = 0;
-			int c = optionIndex;//TODO options.getopt();
-			if (c == -1) break; /*Detect the end of the options.*/
+			int c = optionIndex; //TODO options.getopt();
+			if (c == -1) break; /* Detect the end of the options. */
 			switch (c) {
 			case 0://TODO
 				/* If this option set a flag, do nothing else now. */
@@ -337,7 +345,7 @@ public class Konoha {
 		fw.close();
 	}
 
-	public static boolean k_shell(CTX konoha) { //"shell" is already exist
+	public static boolean kShell(CTX konoha) { //"shell" is already exist
 		void *handler = dlopen("libreadline" K_OSDLLEXT, RTLD_LAZY);
 		void *f = (handler != NULL) ? dlsym(handler, "readline") : null;
 		kreadline = (f != NULL) ? (char* (*)(const char*))f : readline;
