@@ -53,7 +53,7 @@ public final class Tokenizer { // not original
 	}
 	
 	/**
-	 * This method returns a matrix of parser of each character code.
+	 * This method returns a matrix of parser about each character code.
 	 * @return matrix of parser about each character code
 	 */
 	
