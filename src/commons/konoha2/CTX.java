@@ -6,7 +6,7 @@ import commons.konoha2.kclass.*;
 public final class CTX {
 
 	int				safepoint;
-//	KSfp				esp;
+//	KSfp			esp;
 //	KLib2			lib2;
 //	KMemShare		memshare;
 //	KMemLocal		memlocal;
@@ -14,8 +14,13 @@ public final class CTX {
 //	KLocal			local;
 //	KStack			stack;
 //	KLogger			logger;
-	ArrayList<KModShare> modshare;
-	ArrayList<KModLocal> modlocal;
+//	ArrayList<KModShare> modshare;
+//	ArrayList<KModLocal> modlocal;
+	public ArrayList<KModShare> modshare;
+	public ArrayList<KModLocal> modlocal;
+	public Object memshare;
+	public Object lib2;
+	public Object share;
 	
 	
 	/* C macros */
