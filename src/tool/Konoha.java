@@ -5,6 +5,7 @@ import commons.konoha2.*;
 
 import java.io.*;
 import java.net.CacheRequest;
+import org.apache.commons.cli.*;
 
 public class Konoha {
 	
@@ -30,13 +31,17 @@ public class Konoha {
 
 	
 	
-	public static String optarg; //TODO import gnu.getopt.Getopt; in ginit()
+/*	public static String optarg; //TODO import gnu.getopt.Getopt; in ginit()
 	public static int optind; //TODO import gnu.getopt.Getopt; in ginit();
 	//TODO make long_options(struct)
 	private static String[] long_options = { "verbose", "verbose:gc", "verbose:sugar", 
 								"verbose:code", "interactive", "typecheck", 
 								"start-with", "test", "test-with", "builtin-test", "NULL" };
-	
+*/	
+	static {
+		Options longOptions = new Options();
+		OptionBuilder.withLongOpt("verbose");
+	}
 	
 	public static void main(String[] args) throws IOException {
 		boolean ret = true;
@@ -71,7 +76,7 @@ public class Konoha {
 		}
 		//TODO Getopt options = new Getopt(long_options/*TODO long_options(struct)*/, args, "icI:S:");
 		//TODO import gnu.getopt.Getopt;
-		while (true) {
+		while(true) {
 			int optionIndex = 0;
 			int c = optionIndex; //TODO options.getopt();
 			if (c == -1) break; /* Detect the end of the options. */
