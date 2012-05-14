@@ -17,6 +17,7 @@ public final class ParseSLASH implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
 		String ts = tenv.source.substring(tok_start);
+		if(ts.length() < 2) return new ParseOP().parse(ctx, tk, tenv, tok_start, thunk);
 		if(ts.charAt(1) == '/') {
 			return new ParseLINE().parse(ctx, tk, tenv, tok_start, thunk);
 		}

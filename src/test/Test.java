@@ -35,6 +35,8 @@ class Test {
 //		,@							ok
 //		'1 < 2, 2 < 2, 3=3'			ok
 //		'hoge, hoge, hogu'			ok
+//		/							ok
+//		xxx/							ok
 		String source = br.readLine();
 
 		if(source != null) {
