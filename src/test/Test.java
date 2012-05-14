@@ -20,7 +20,11 @@ class Test {
 		KArray<KToken> a = new KArray<KToken>();
 		KKonohaSpace ks = new KKonohaSpace();
 //		BufferedReader br = new BufferedReader(new FileReader(args[0]));
-		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
+//		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
+//		String source = "//";
+//		String source = "xxx";
+//		String source = "()";
+		String source = "[]";
 //		String source = br.readLine();
 
 		if(source != null) {

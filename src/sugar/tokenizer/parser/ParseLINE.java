@@ -19,6 +19,7 @@ public final class ParseLINE implements FTokenizer {
 //		while((ch = tenv.source.charAt(pos++)) != 0) {
 		while(true) {
 			pos++;
+			if(pos >= tenv.source.length()) break;
 			if((ch = tenv.source.charAt(pos)) == 0) break;
 			if(ch == '\n') break;
 		}
