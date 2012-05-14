@@ -23,8 +23,8 @@ class Test {
 //		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
 //		String source = "//";
 //		String source = "xxx";
-//		String source = "()";
-		String source = "[]";
+		String source = "()";
+//		String source = "[]";
 //		String source = br.readLine();
 
 		if(source != null) {

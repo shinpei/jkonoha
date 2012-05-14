@@ -21,7 +21,7 @@ public final class ParseOP1 implements FTokenizer {
 			String s = tenv.source.substring(tok_start);
 			tk.text = new KString(s.substring(0, 1)); // KSETv(tk->text, new_kString(s, 1, SPOL_ASCII|SPOL_POOL));
 			tk.tt = KToken.TK_OPERATOR;
-			tk.topch = s.charAt(tok_start);
+			tk.topch = s.charAt(0);
 		}
 		return tok_start + 1;
 	}
