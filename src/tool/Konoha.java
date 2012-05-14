@@ -12,15 +12,16 @@ public class Konoha {
 	public static int compileonlyFlag = 0;       // global variable
 	public static int interactiveFlag = 0;       // global variable
 	
-	public static Options longOptions;
-//	public static int verboseDebug = 0;	         //global variable
-//	public static int verboseGc	= 0;	         //global variable
-//	public static int verboseSugar = 0;	         //global variable
-//	public static int verboseCode = 0;	         //global variable
+	public static int verboseDebug = 0;	         //global variable
+	public static int verboseGc	= 0;	         //global variable
+	public static int verboseSugar = 0;	         //global variable
+	public static int verboseCode = 0;	         //global variable
 
 	public static String startupScript = null;	 //global variable
 	public static String builtinTest = null;	 //global variable
 	public static String testScript = null;	     //global variable
+	
+	public static Options longOptions;
 	
 	// src/konoha/methods.h
 	public static int assertResult = 0;
