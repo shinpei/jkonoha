@@ -20,7 +20,12 @@ public final class ParseUNDEF implements FTokenizer {
 			// size_t errref = SUGAR_P(ERR_, tk->uline, tk->lpos, "undefined token character: %c", tenv->source[tok_start]);
 			// KToken.Token_toERR(ctx, tk, errref);
 		}
-		while(tenv.source.charAt(++tok_start) != 0);
+//		while(tenv.source.charAt(++tok_start) != 0);
+		while(true) {
+			tok_start++;
+			if(tok_start >= tenv.source.length()) break;
+			if(tenv.source.charAt(tok_start) != 0) break;
+		}
 		return tok_start;
 	}
 }
