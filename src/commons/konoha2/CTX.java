@@ -14,8 +14,6 @@ public final class CTX {
 //	KLocal			local;
 //	KStack			stack;
 //	KLogger			logger;
-//	ArrayList<KModShare> modshare;
-//	ArrayList<KModLocal> modlocal;
 	public ArrayList<KModShare> modshare;
 	public ArrayList<KModLocal> modlocal;
 	public Object memshare;
