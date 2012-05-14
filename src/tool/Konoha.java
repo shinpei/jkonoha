@@ -5,16 +5,18 @@ import commons.konoha2.*;
 
 import java.io.*;
 import java.net.CacheRequest;
+import org.apache.commons.cli.*;
 
 public class Konoha {
 	
 	public static int compileonlyFlag = 0;       // global variable
 	public static int interactiveFlag = 0;       // global variable
 	
-	public static int verboseDebug = 0;	         //global variable
-	public static int verboseGc	= 0;	         //global variable
-	public static int verboseSugar = 0;	         //global variable
-	public static int verboseCode = 0;	         //global variable
+	public static Options longOptions;
+//	public static int verboseDebug = 0;	         //global variable
+//	public static int verboseGc	= 0;	         //global variable
+//	public static int verboseSugar = 0;	         //global variable
+//	public static int verboseCode = 0;	         //global variable
 
 	public static String startupScript = null;	 //global variable
 	public static String builtinTest = null;	 //global variable
@@ -30,13 +32,26 @@ public class Konoha {
 
 	
 	
-	public static String optarg; //TODO import gnu.getopt.Getopt; in ginit()
+/*	public static String optarg; //TODO import gnu.getopt.Getopt; in ginit()
 	public static int optind; //TODO import gnu.getopt.Getopt; in ginit();
 	//TODO make long_options(struct)
 	private static String[] long_options = { "verbose", "verbose:gc", "verbose:sugar", 
 								"verbose:code", "interactive", "typecheck", 
 								"start-with", "test", "test-with", "builtin-test", "NULL" };
-	
+*/	
+	static {
+		longOptions = new Options();
+		longOptions.addOption(null, "verbose", false, null);
+		longOptions.addOption(null, "verbose:gc", false, null);
+		longOptions.addOption(null, "verbose:sugar", false, null);
+		longOptions.addOption(null, "verbose:code", false, null);
+		longOptions.addOption("i", "interactive", false, null);
+		longOptions.addOption("c", "typecheck", false, null);
+		longOptions.addOption("S", "start-with", true, null);
+		longOptions.addOption("T", "test", true, null);
+		longOptions.addOption("T", "test-with", true, null);
+		longOptions.addOption("B", "builtin-test", true, null);
+	}
 	
 	public static void main(String[] args) throws IOException {
 		boolean ret = true;
@@ -64,6 +79,7 @@ public class Konoha {
 
 	public static int ginit(String[] args) {
 		if (System.getenv("KONOHA_DEBUG") != null) {
+			longOptions.getOption("verbose");
 			verboseDebug = 1;
 			verboseGc = 1;
 			verboseSugar = 1;
@@ -71,7 +87,7 @@ public class Konoha {
 		}
 		//TODO Getopt options = new Getopt(long_options/*TODO long_options(struct)*/, args, "icI:S:");
 		//TODO import gnu.getopt.Getopt;
-		while (true) {
+		while(true) {
 			int optionIndex = 0;
 			int c = optionIndex; //TODO options.getopt();
 			if (c == -1) break; /* Detect the end of the options. */
