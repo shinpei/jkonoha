@@ -14,18 +14,25 @@ import commons.sugar.KKonohaSpace;
 
 class Test {
 	
-	public static void main(String[] args) /* throws FileNotFoundException, IOException */ {
+	public static void main(String[] args)  throws FileNotFoundException, IOException  {
 		CTX ctx = new CTX();
 		int uline = 0;
 		KArray<KToken> a = new KArray<KToken>();
 		KKonohaSpace ks = new KKonohaSpace();
-//		BufferedReader br = new BufferedReader(new FileReader(args[0]));
-//		String source = "ab \n + /* hogehogeghohogeg hogehogh hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
-//		String source = "//";
-//		String source = "xxx";
-		String source = "()";
-//		String source = "[]";
-//		String source = br.readLine();
+		BufferedReader br = new BufferedReader(new FileReader(args[0]));
+//		//			ok
+//		\			ok
+//		"xxx;"		ok
+//		"/","xxx;"	ok
+//		()			ok
+//		[]			ok
+//		{}			ok
+//		' 			ok
+//		" 			ok
+//		@@@			ok
+//		'`'			ok
+//		,@			ok
+		String source = br.readLine();
 
 		if(source != null) {
 			Tokenizer.ktokenize(ctx, ks, source, uline, a);
