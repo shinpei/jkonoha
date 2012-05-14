@@ -12,10 +12,11 @@ public class Konoha {
 	public static int compileonlyFlag = 0;       // global variable
 	public static int interactiveFlag = 0;       // global variable
 	
-	public static int verboseDebug = 0;	         //global variable
-	public static int verboseGc	= 0;	         //global variable
-	public static int verboseSugar = 0;	         //global variable
-	public static int verboseCode = 0;	         //global variable
+	public static Options longOptions;
+//	public static int verboseDebug = 0;	         //global variable
+//	public static int verboseGc	= 0;	         //global variable
+//	public static int verboseSugar = 0;	         //global variable
+//	public static int verboseCode = 0;	         //global variable
 
 	public static String startupScript = null;	 //global variable
 	public static String builtinTest = null;	 //global variable
@@ -39,8 +40,17 @@ public class Konoha {
 								"start-with", "test", "test-with", "builtin-test", "NULL" };
 */	
 	static {
-		Options longOptions = new Options();
-		OptionBuilder.withLongOpt("verbose");
+		longOptions = new Options();
+		longOptions.addOption(null, "verbose", false, null);
+		longOptions.addOption(null, "verbose:gc", false, null);
+		longOptions.addOption(null, "verbose:sugar", false, null);
+		longOptions.addOption(null, "verbose:code", false, null);
+		longOptions.addOption("i", "interactive", false, null);
+		longOptions.addOption("c", "typecheck", false, null);
+		longOptions.addOption("S", "start-with", true, null);
+		longOptions.addOption("T", "test", true, null);
+		longOptions.addOption("T", "test-with", true, null);
+		longOptions.addOption("B", "builtin-test", true, null);
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -69,6 +79,7 @@ public class Konoha {
 
 	public static int ginit(String[] args) {
 		if (System.getenv("KONOHA_DEBUG") != null) {
+			longOptions.getOption("verbose");
 			verboseDebug = 1;
 			verboseGc = 1;
 			verboseSugar = 1;
