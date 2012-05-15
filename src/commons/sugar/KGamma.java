@@ -4,7 +4,7 @@ import commons.konoha2.KObjectHeader;
 
 public class KGamma {//joseph:kGamma in original konoha2 (/include/konoha2/sugar.h)
 	KObjectHeader h;
-	GmaBuf genv = new GmaBuf();
+	GmaBuf genv;
 	/*TODO
 		#define kGamma_TOPLEVEL        (kflag_t)(1)
 		#define kGamma_isTOPLEVEL(GMA)  TFLAG_is(kflag_t, GMA->genv->flag, kGamma_TOPLEVEL)

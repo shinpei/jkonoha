@@ -6,13 +6,13 @@ public class GmaBuf {//joseph:gmabuf_t in original konoha2 (/include/konoha2/sug
 	int flag;
 	int cflag;
 	
-	K_KonohaSpace ks = new K_KonohaSpace();//TODO
+	K_KonohaSpace ks;
 	
 	int thisCid;
 	static int staticCid;
-	K_Method mtd = new K_Method();//TODO
+	K_Method mtd;
 	GStack f = new GStack();
 	GStack l = new GStack();
-	K_Array lvarlst = new K_Array();//TODO
+	K_Array lvarlst;
 	int lvarlstTop;
 }
