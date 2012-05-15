@@ -15,7 +15,7 @@ public class TEnv {
 	
 	public String source;
 	public int uline;
-	public KArray<KToken> list;
+	public K_Array<K_Token> list;
 	public int bol;   // begin of line
 	public int indent_tab;
 	public FTokenizer[] fmat;
@@ -34,7 +34,7 @@ public class TEnv {
 	 * @param fmat
 	 */
 	
-	TEnv(String source, int uline, KArray<KToken> a, int indent_tab, FTokenizer[] fmat) {
+	TEnv(String source, int uline, K_Array<K_Token> a, int indent_tab, FTokenizer[] fmat) {
 		this.source = source;
 		this.uline = uline;
 		this.list = a;

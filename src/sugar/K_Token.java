@@ -9,14 +9,14 @@ import commons.konoha2.kclass.*;
  *
  */
 
-public final class KToken extends KObject {
+public final class K_Token extends K_Object {
 	
 	public int tt;
 	public int kw;
 	
 	/* union */
-	public KString text;
-	public KArray sub;
+	public K_String text;
+	public K_Array sub;
 	
 	public int uline;
 	

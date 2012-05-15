@@ -27,5 +27,5 @@ public interface FTokenizer {
 	 * @return int
 	 */
 	
-	public abstract int parse(CTX ctx, KToken tk, TEnv tenv, int pos, KMethod thunk);
+	public abstract int parse(CTX ctx, K_Token tk, TEnv tenv, int pos, K_Method thunk);
 }

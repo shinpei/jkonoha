@@ -10,11 +10,11 @@ import java.util.*;
  * @param <T>
  */
 
-public final class KArray<T> extends KObject {
+public final class K_Array<T> extends K_Object {
 	
 	public ArrayList<T> list;
 
-	public KArray() {
+	public K_Array() {
 		this.list = new ArrayList<T>();
 	}
 	

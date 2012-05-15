@@ -4,7 +4,7 @@ import sugar.*;
 import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
-import commons.konoha2.kclass.KMethod;
+import commons.konoha2.kclass.K_Method;
 
 /**
  * This class is used to parse "COMMENT" 
@@ -14,7 +14,7 @@ import commons.konoha2.kclass.KMethod;
 
 public final class ParseCOMMENT implements FTokenizer {
 	
-	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+	@Override public final int parse(CTX ctx,  K_Token tk, TEnv tenv, int tok_start, K_Method thunk) {
 		int ch, prev = 0, level = 1, pos = tok_start + 2;
 		/*@#nnnn is line number */
 		if(tenv.source.charAt(pos) == '@' && tenv.source.charAt(pos + 1) == '#' && Character.isDigit(tenv.source.charAt(pos + 2))) {

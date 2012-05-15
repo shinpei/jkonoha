@@ -2,13 +2,13 @@ package test;
 
 import java.io.*;
 
-import sugar.KToken;
+import sugar.K_Token;
 
 import sugar.token.*;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
-import commons.sugar.KKonohaSpace;
+import commons.sugar.K_KonohaSpace;
 
 //import org.apache.log4j.*;
 
@@ -16,8 +16,8 @@ class Test {
 	public static void main(String[] args)  throws FileNotFoundException, IOException  {
 		CTX ctx = new CTX();
 		int uline = 0;
-		KArray<KToken> a = new KArray<KToken>();
-		KKonohaSpace ks = new KKonohaSpace();
+		K_Array<K_Token> a = new K_Array<K_Token>();
+		K_KonohaSpace ks = new K_KonohaSpace();
 		BufferedReader br = new BufferedReader(new FileReader(args[0]));
 //		//							ok
 //		\							ok
@@ -35,7 +35,7 @@ class Test {
 //		'1 < 2, 2 < 2, 3=3'			ok
 //		'hoge, hoge, hogu'			ok
 //		/							ok
-//		xxx/							ok
+//		xxx/						ok
 		String source = br.readLine();
 		if(source != null) {
 			Tokenizer.ktokenize(ctx, ks, source, uline, a);
