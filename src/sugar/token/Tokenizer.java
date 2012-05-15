@@ -1,6 +1,6 @@
 package sugar.token;
 
-import sugar.KToken;
+import sugar.K_Token;
 import sugar.token.codeParser.*;
 import commons.*;
 import commons.sugar.*;
@@ -31,7 +31,7 @@ public final class Tokenizer { // not original
 	private static final void tokenize(CTX ctx, TEnv tenv) {
 		int ch, pos = 0;
 		FTokenizer fmat[] = tenv.fmat;
-		KToken tk = new KToken(); // TODO
+		K_Token tk = new K_Token(); // TODO
 		assert tk.tt == 0;
 		tk.uline = tenv.uline;
 		tk.lpos = tenv.lpos(0);
@@ -39,7 +39,7 @@ public final class Tokenizer { // not original
 		while(pos < tenv.source.length() && (ch = kchar(tenv.source, pos)) != 0) {
 			if(tk.tt != 0) {
 				tenv.list.add(tk);
-				tk = new KToken(); // TODO
+				tk = new K_Token(); // TODO
 				tk.uline = tenv.uline;
 				tk.lpos = tenv.lpos(pos);
 			}
@@ -113,7 +113,7 @@ public final class Tokenizer { // not original
 	 * @param a tokens which sourcecode is divided into
 	 */
 	
-	public static void ktokenize(CTX ctx, KKonohaSpace ks, String source, int uline, KArray<KToken> a) {
+	public static void ktokenize(CTX ctx, K_KonohaSpace ks, String source, int uline, K_Array<K_Token> a) {
 		int i, pos = a.size();
 		FTokenizer fmat[];
 		fmat = MiniKonohaTokenMatrix();
@@ -204,88 +204,3 @@ public final class Tokenizer { // not original
 	_LALPHA, _LALPHA, _LALPHA, _LBR, _VAR, _RBR, _CHILDER, 1,
 	};	
 }
-	
-
-
-/*final class ParseSyntaxRule {
-	
-	private static int findTopCh(CTX ctx, KArray<KToken> tls, int s, int e, int tt, int closech) {
-		int i;
-		for(i = s; i < e; i++) {
-			KToken tk = (KToken)tls.get(i);
-			// TODO if(tk.tt == tt && S_text(tk->text)[0] == closech) return i;
-		}
-		CTX.DBG_ASSERT(i != e);
-		return 0;
-	}
-	
-	private static boolean checkNestedSyntax(CTX ctx, KArray<KToken> tls, int s, int e, int tt, int opench, int closech) {
-		int i = s;
-		KToken tk = (KToken)tls.get(i);
-		String t; // TODO const char *t =  S_text(tk->text);
-		if(t.charAt(0) == opench && t.charAt(1) == 0) {
-			int ne = findTopCh(ctx, tls, i + 1, e, tk.tt, closech);
-			tk.tt = tt; tk.kw = tt;
-			// TODO KSETv(tk->sub, new(TokenArray, 0));
-			tk.topch = opench; tk.closech = closech;
-			makeSyntaxRule(ctx, tls, i + 1, ne, tk.sub);
-			s = ne;
-			return true;
-		}
-		return false;
-	}
-	
-	private static boolean makeSyntaxRule(CTX ctx, KArray<KToken> tls, int s, int e, KArray<KToken> adst) {
-		int i;
-		int nameid = 0;
-		// TODO dumpTokenArray(_ctx, 0, tls, s, e);
-		for(i = s; i < e; i++) {
-			KToken tk = (KToken)tls.get(i);
-			if(tk.tt == KToken.TK_INDENT) continue;
-			if(tk.tt == TK_TEXT || tk.tt == TK_STEXT) {
-				if( TODO checkNestexdSyntax ) {
-				}
-				else {
-					tk.tt = KToken.TK_CODE;
-					// TODO tk.kw = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
-				}
-				adst.add(tk);
-				continue;
-			}
-			if(tk.tt == KToken.TK_SYMBOL || tk.tt == KToken.TK_USYMBOL) {
-				if(i > 0 && ((KToken)tls.get(i - 1)).topch == '$') {
-					// TODO
-					// snprintf(nbuf, sizeof(nbuf), "$%s", S_text(tk->text));
-					// tk->kw = keyword(_ctx, (const char*)nbuf, strlen(nbuf), FN_NEWID);
-					tk.tt = KToken.TK_METNAME;
-					if(nameid == 0) nameid = tk.kw;
-					tk.nameid = nameid;
-					nameid = 0;
-					adst.add(tk); continue;
-				}
-				if(i + 1 < e && ((KToken)tls.get(i + 1)).topch == ':') {
-					tk = (KToken)tls.get(i);
-					// TODO nameid = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
-					i++;
-					continue;
-				}
-			}
-			if(tk.tt == KToken.TK_OPERATOR) {
-				if( checkNestedSyntax ) {
-					adst.add(tk);
-					continue;
-				}
-				if(((KToken)tls.get(i)).topch == '$') continue;
-			}
-			// TODO SUGAR_P(ERR_, tk->uline, tk->lpos, "illegal sugar syntax: %s", kToken_s(tk));
-			return false;
-		}
-		return true;
-	}
-	
-	public static void parseSyntaxRule(CTX ctx, String rule, int uline, KArray<KToken> a) {
-		KArray<KToken> tls; // TODO kArray *tls = ctxsugar->tokens;
-		int pos = tls.size();
-		Tokenizer.ktokenize(ctx, rule, uline, tls);
-	}
-}*/

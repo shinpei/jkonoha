@@ -1,24 +1,22 @@
 package commons.konoha2;
 
 import java.util.*;
+
 import commons.konoha2.kclass.*;
 
 public final class CTX {
 
-	int				safepoint;
+	public 1int				safepoint;
 //	KSfp			esp;
 //	KLib2			lib2;
 //	KMemShare		memshare;
 //	KMemLocal		memlocal;
-//	KShare			share;
+	public KShare			share;
 //	KLocal			local;
 //	KStack			stack;
 //	KLogger			logger;
 	public ArrayList<KModShare> modshare;
 	public ArrayList<KModLocal> modlocal;
-	public Object memshare;
-	public Object lib2;
-	public Object share;
 	
 	
 	/* C macros */
@@ -38,8 +36,8 @@ public final class CTX {
 	public static final int KObject_NullObject = (1<<0);
 	
 	public static boolean IS_NOTNULL(Object o) {
-		if(!(o instanceof KObject)) return false;
-		return ((((KObject)o).h.magicflag & KObject_NullObject) != KObject_NullObject);
+		if(!(o instanceof K_Object)) return false;
+		return ((((K_Object)o).h.magicflag & KObject_NullObject) != KObject_NullObject);
 	}
 	
 	

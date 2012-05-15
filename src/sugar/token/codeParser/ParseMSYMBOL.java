@@ -14,7 +14,7 @@ import commons.konoha2.kclass.*;
 
 public final class ParseMSYMBOL implements FTokenizer {
 	
-	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+	@Override public final int parse(CTX ctx,  K_Token tk, TEnv tenv, int tok_start, K_Method thunk) {
 		int ch, pos = tok_start;
 		String ts = tenv.source;
 //		while((ch = ts.charAt(pos++)) != 0) {
@@ -26,8 +26,8 @@ public final class ParseMSYMBOL implements FTokenizer {
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
 //			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_UFT8));
-			tk.text = new KString(ts.substring(tok_start, pos)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_UFT8));
-			tk.tt = KToken.TK_MSYMBOL;
+			tk.text = new K_String(ts.substring(tok_start, pos)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_UFT8));
+			tk.tt = K_Token.TK_MSYMBOL;
 		}
 //		return pos - 1; // next
 		return pos; // next

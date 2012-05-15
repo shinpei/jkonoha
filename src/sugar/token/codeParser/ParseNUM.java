@@ -5,8 +5,8 @@ import sugar.*;
 import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
-import commons.konoha2.kclass.KMethod;
-import commons.konoha2.kclass.KString;
+import commons.konoha2.kclass.K_Method;
+import commons.konoha2.kclass.K_String;
 
 /**
  * This class is used to parse "NUM" 
@@ -16,7 +16,7 @@ import commons.konoha2.kclass.KString;
 
 public final class ParseNUM implements FTokenizer {
 	
-	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+	@Override public final int parse(CTX ctx,  K_Token tk, TEnv tenv, int tok_start, K_Method thunk) {
 		int ch, pos = tok_start, dot = 0;
 		String ts = tenv.source;
 //		while((ch = ts.charAt(pos++)) != 0) {
@@ -40,8 +40,8 @@ public final class ParseNUM implements FTokenizer {
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
 //			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-			tk.text = new KString(ts.substring(tok_start, pos)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-			tk.tt = (dot == 0) ? KToken.TK_INT : KToken.TK_FLOAT;
+			tk.text = new K_String(ts.substring(tok_start, pos)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
+			tk.tt = (dot == 0) ? K_Token.TK_INT : K_Token.TK_FLOAT;
 		}
 //		return pos - 1;  // next
 		return pos;  // next

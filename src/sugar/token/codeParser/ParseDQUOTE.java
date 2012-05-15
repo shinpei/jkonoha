@@ -4,8 +4,8 @@ import sugar.*;
 import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
-import commons.konoha2.kclass.KMethod;
-import commons.konoha2.kclass.KString;
+import commons.konoha2.kclass.K_Method;
+import commons.konoha2.kclass.K_String;
 
 /**
  * This class is used to parse "DQUOTE" 
@@ -14,7 +14,7 @@ import commons.konoha2.kclass.KString;
  */
 
 public final class ParseDQUOTE implements FTokenizer {
-	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+	@Override public final int parse(CTX ctx,  K_Token tk, TEnv tenv, int tok_start, K_Method thunk) {
 		int ch, prev = '"', pos = tok_start + 1;
 //		while((ch = tenv.source.charAt(pos++)) != 0) {
 		while(true) {
@@ -27,8 +27,8 @@ public final class ParseDQUOTE implements FTokenizer {
 			if(ch == '"' && prev != '\\') {
 				if(tk != null /* CTX.IS_NOTNULL(tk) */) {
 //					tk.text = new KString(tenv.source.substring(tok_start + 1, pos - 1)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos - 1) - (tok_start + 1), 0));
-					tk.text = new KString(tenv.source.substring(tok_start + 1, pos)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos - 1) - (tok_start + 1), 0));
-					tk.tt = KToken.TK_TEXT;
+					tk.text = new K_String(tenv.source.substring(tok_start + 1, pos)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos - 1) - (tok_start + 1), 0));
+					tk.tt = K_Token.TK_TEXT;
 				}
 				return pos;
 			}

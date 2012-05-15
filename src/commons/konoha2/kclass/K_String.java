@@ -6,12 +6,12 @@ package commons.konoha2.kclass;
  *
  */
 
-public class KString extends KObject {
+public class K_String extends K_Object {
 	
 	public String text;
 	// TODO const char inline_text[SIZEOF_INLINETEXT];
 	
-	public KString(String text) {
+	public K_String(String text) {
 		this.text = text;
 	}
 	

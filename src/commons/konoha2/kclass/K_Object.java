@@ -2,7 +2,7 @@ package commons.konoha2.kclass;
 
 import commons.konoha2.*;
 
-public class KObject {
+public class K_Object {
 	public KObjectHeader h;
 	
 	/* union */

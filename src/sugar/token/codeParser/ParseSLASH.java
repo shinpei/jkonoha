@@ -5,7 +5,7 @@ import sugar.*;
 import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
-import commons.konoha2.kclass.KMethod;
+import commons.konoha2.kclass.K_Method;
 
 /**
  * This class is used to parse "SLASH" 
@@ -15,7 +15,7 @@ import commons.konoha2.kclass.KMethod;
 
 public final class ParseSLASH implements FTokenizer {
 	
-	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
+	@Override public final int parse(CTX ctx,  K_Token tk, TEnv tenv, int tok_start, K_Method thunk) {
 		String ts = tenv.source.substring(tok_start);
 		if(ts.length() < 2) return new ParseOP().parse(ctx, tk, tenv, tok_start, thunk);
 		if(ts.charAt(1) == '/') {

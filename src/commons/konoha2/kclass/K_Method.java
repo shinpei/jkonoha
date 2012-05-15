@@ -1,5 +1,5 @@
 package commons.konoha2.kclass;
 
-public class KMethod extends KObject {
+public class K_Method extends K_Object {
 	// TODO
 }
