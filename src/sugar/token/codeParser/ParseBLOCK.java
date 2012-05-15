@@ -1,7 +1,7 @@
-package sugar.tokenizer.parser;
+package sugar.token.codeParser;
 
 import sugar.KToken;
-import sugar.tokenizer.*;
+import sugar.token.*;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
@@ -13,7 +13,7 @@ import commons.konoha2.kclass.KString;
  *
  */
 
-public final class ParseBLOCK implements FTokenizer {
+public final class ParseBLOCK implements FTokenizer { // TODO
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
 		int ch, level = 1, pos = tok_start + 1;
@@ -24,8 +24,7 @@ public final class ParseBLOCK implements FTokenizer {
 				level--;
 				if(level == 0) {
 					if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-						tk.text = new KString(tenv.source.substring(tok_start + 1, pos - 2)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos-2)-(tok_start)+1), 0));
-						System.out.println(tk.text.text);
+						tk.text = new KString(tenv.source.substring(tok_start + 1, pos)); // TODO KSETv(tk->text, new_kString(tenv->source + tok_start + 1, (pos-2)-(tok_start)+1), 0));
 						tk.tt = KToken.TK_CODE;
 					}
 					return pos + 1;
