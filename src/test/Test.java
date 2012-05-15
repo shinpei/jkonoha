@@ -13,20 +13,12 @@ import commons.sugar.KKonohaSpace;
 //import org.apache.log4j.*;
 
 class Test {
-	
-<<<<<<< HEAD
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-=======
 	public static void main(String[] args)  throws FileNotFoundException, IOException  {
->>>>>>> master
 		CTX ctx = new CTX();
 		int uline = 0;
 		KArray<KToken> a = new KArray<KToken>();
 		KKonohaSpace ks = new KKonohaSpace();
 		BufferedReader br = new BufferedReader(new FileReader(args[0]));
-<<<<<<< HEAD
-//		String source = "a b c d f g h \n + /* hogehogeghohogeg hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
-=======
 //		//							ok
 //		\							ok
 //		"xxx;"						ok
@@ -44,9 +36,6 @@ class Test {
 //		'hoge, hoge, hogu'			ok
 //		/							ok
 //		xxx/							ok
->>>>>>> master
-		String source = br.readLine();
-
 		if(source != null) {
 			Tokenizer.ktokenize(ctx, ks, source, uline, a);
 			for(int i = 0; i < a.size(); i++) {
