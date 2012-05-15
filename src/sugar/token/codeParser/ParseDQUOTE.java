@@ -1,7 +1,7 @@
-package sugar.tokenizer.parser;
+package sugar.token.codeParser;
 
 import sugar.*;
-import sugar.tokenizer.TEnv;
+import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
@@ -19,7 +19,7 @@ public final class ParseDQUOTE implements FTokenizer {
 //		while((ch = tenv.source.charAt(pos++)) != 0) {
 		while(true) {
 			pos++;
-			if(pos >= tenv.source.length());
+			if(pos >= tenv.source.length()) break;
 			if((ch = tenv.source.charAt(pos)) == 0) break;
 			if(ch == '\n') {
 				break;

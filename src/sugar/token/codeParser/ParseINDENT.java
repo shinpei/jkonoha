@@ -1,7 +1,7 @@
-package sugar.tokenizer.parser;
+package sugar.token.codeParser;
 
 import sugar.*;
-import sugar.tokenizer.*;
+import sugar.token.*;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;

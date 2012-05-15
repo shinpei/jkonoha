@@ -4,7 +4,7 @@ import java.io.*;
 
 import sugar.KToken;
 
-import sugar.tokenizer.*;
+import sugar.token.*;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
@@ -14,13 +14,37 @@ import commons.sugar.KKonohaSpace;
 
 class Test {
 	
+<<<<<<< HEAD
 	public static void main(String[] args) throws FileNotFoundException, IOException {
+=======
+	public static void main(String[] args)  throws FileNotFoundException, IOException  {
+>>>>>>> master
 		CTX ctx = new CTX();
 		int uline = 0;
 		KArray<KToken> a = new KArray<KToken>();
 		KKonohaSpace ks = new KKonohaSpace();
 		BufferedReader br = new BufferedReader(new FileReader(args[0]));
+<<<<<<< HEAD
 //		String source = "a b c d f g h \n + /* hogehogeghohogeg hoge */cd\n//hogehogehogehogehogehoge\nhugahuga + 3";
+=======
+//		//							ok
+//		\							ok
+//		"xxx;"						ok
+//		"/","xxx;"					ok
+//		()							ok
+//		[]							ok
+//		{}							ok
+//		' 							ok
+//		" 							ok
+//		@@@							ok
+//		'`'							ok
+//		,@							ok
+//		,@							ok
+//		'1 < 2, 2 < 2, 3=3'			ok
+//		'hoge, hoge, hogu'			ok
+//		/							ok
+//		xxx/							ok
+>>>>>>> master
 		String source = br.readLine();
 
 		if(source != null) {

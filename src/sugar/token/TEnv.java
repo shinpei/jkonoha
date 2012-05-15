@@ -1,9 +1,9 @@
-package sugar.tokenizer;
+package sugar.token;
 
 import commons.konoha2.kclass.*;
 
 import sugar.*;
-import sugar.tokenizer.parser.*;
+import sugar.token.codeParser.*;
 
 /**
  * tenv_t in original konoha2  

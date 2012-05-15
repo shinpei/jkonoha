@@ -1,20 +1,20 @@
-package sugar.tokenizer.parser;
+package sugar.token.codeParser;
 
-import sugar.KToken;
+import sugar.*;
 
-import sugar.tokenizer.TEnv;
+import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.KMethod;
 import commons.konoha2.kclass.KString;
 
 /**
- * This class is used to parse "USYMBOL" 
+ * This class is used to parse "SYMBOL" 
  * @author okachin
  *
  */
 
-public final class ParseUSYMBOL implements FTokenizer {
+public final class ParseSYMBOL implements FTokenizer {
 	
 	@Override public final int parse(CTX ctx,  KToken tk, TEnv tenv, int tok_start, KMethod thunk) {
 		int ch, pos = tok_start;
@@ -28,12 +28,11 @@ public final class ParseUSYMBOL implements FTokenizer {
 			break;
 		}
 		if(tk != null /* CTX.IS_NOTNULL(tk) */) {
-//			tk.text = new KString(ts.substring(tok_start, pos - 1)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
 			tk.text = new KString(ts.substring(tok_start, pos)); // TODO KSETv(tk->text, new_kString(ts + tok_start, (pos-1)-tok_start, SPOL_ASCII));
-			System.out.println(tk.text.text);
-			tk.tt = KToken.TK_USYMBOL;
+			assert tk.text != null;
+			tk.tt = KToken.TK_SYMBOL;
 		}
-//		return pos - 1; // next
-		return pos; // next
+		return pos;  // next
+//		return pos - 1;  // next
 	}
-}
+}	
