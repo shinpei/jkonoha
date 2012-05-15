@@ -4,7 +4,7 @@ import java.io.*;
 
 import sugar.KToken;
 
-import sugar.tokenizer.*;
+import sugar.token.*;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
@@ -20,18 +20,23 @@ class Test {
 		KArray<KToken> a = new KArray<KToken>();
 		KKonohaSpace ks = new KKonohaSpace();
 		BufferedReader br = new BufferedReader(new FileReader(args[0]));
-//		//			ok
-//		\			ok
-//		"xxx;"		ok
-//		"/","xxx;"	ok
-//		()			ok
-//		[]			ok
-//		{}			ok
-//		' 			ok
-//		" 			ok
-//		@@@			ok
-//		'`'			ok
-//		,@			ok
+//		//							ok
+//		\							ok
+//		"xxx;"						ok
+//		"/","xxx;"					ok
+//		()							ok
+//		[]							ok
+//		{}							ok
+//		' 							ok
+//		" 							ok
+//		@@@							ok
+//		'`'							ok
+//		,@							ok
+//		,@							ok
+//		'1 < 2, 2 < 2, 3=3'			ok
+//		'hoge, hoge, hogu'			ok
+//		/							ok
+//		xxx/							ok
 		String source = br.readLine();
 
 		if(source != null) {

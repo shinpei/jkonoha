@@ -1,9 +1,9 @@
-package sugar.tokenizer.parser;
+package sugar.token.codeParser;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
 import sugar.*;
-import sugar.tokenizer.*;
+import sugar.token.*;
 
 /**
  * Ftokenizer in original konoha2
