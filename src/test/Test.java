@@ -36,6 +36,7 @@ class Test {
 //		'hoge, hoge, hogu'			ok
 //		/							ok
 //		xxx/							ok
+		String source = br.readLine();
 		if(source != null) {
 			Tokenizer.ktokenize(ctx, ks, source, uline, a);
 			for(int i = 0; i < a.size(); i++) {
