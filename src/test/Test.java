@@ -13,7 +13,6 @@ import commons.sugar.K_KonohaSpace;
 //import org.apache.log4j.*;
 
 class Test {
-	
 	public static void main(String[] args)  throws FileNotFoundException, IOException  {
 		CTX ctx = new CTX();
 		int uline = 0;
@@ -38,7 +37,6 @@ class Test {
 //		/							ok
 //		xxx/						ok
 		String source = br.readLine();
-
 		if(source != null) {
 			Tokenizer.ktokenize(ctx, ks, source, uline, a);
 			for(int i = 0; i < a.size(); i++) {
