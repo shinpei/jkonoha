@@ -5,26 +5,26 @@ import commons.konoha2.kclass.*;
 import commons.sugar.*;
 
 public class KModSugar {//joseph:kmodsugar_t in original konoha2 (/include/konoha2/sugar.h)
-	KModShare	h;
-	K_Class		cToken;//TODO
-	K_Class		cExpr;//TODO
-	K_Class		cStmt;//TODO
-	K_Class		cBlock;//TODO
-	K_Class		cKonohaSpace;//TODO
-	K_Class		cGamma;//TODO
-	K_Class		cTokenArray;//TODO
+	public KModShare	h;
+	public K_Class		cToken;//TODO
+	public K_Class		cExpr;//TODO
+	public K_Class		cStmt;//TODO
+	public K_Class		cBlock;//TODO
+	public K_Class		cKonohaSpace;//TODO
+	public K_Class		cGamma;//TODO
+	public K_Class		cTokenArray;//TODO
 	//
-	K_Array			keywordList;
-	struct kmap_t	keywordMapNN;//TODO
-	K_Array         packageList;
-	struct kmap_t	packageMapNO;//TODO
-	K_KonohaSpace	rootks;
+	public K_Array			keywordList;
+	public struct kmap_t	keywordMapNN;//TODO
+	public K_Array         packageList;
+	public struct kmap_t	packageMapNO;//TODO
+	public K_KonohaSpace	rootks;
 
-	K_Method		UndefinedParseExpr;
-	K_Method		UndefinedStmtTyCheck;
-	K_Method		UndefinedExprTyCheck;
-	K_Method		ParseExpr_Term;
-	K_Method		ParseExpr_Op;
+	public K_Method		UndefinedParseExpr;
+	public K_Method		UndefinedStmtTyCheck;
+	public K_Method		UndefinedExprTyCheck;
+	public K_Method		ParseExpr_Term;
+	public K_Method		ParseExpr_Op;
 	
 	//export TODO
 	/*kExpr* (*Expr_setConstValue)(CTX, kExpr *expr, ktype_t ty, kObject *o);

@@ -3,16 +3,16 @@ package commons.sugar;
 import commons.konoha2.kclass.*;
 
 public class GmaBuf {//joseph:gmabuf_t in original konoha2 (/include/konoha2/sugar.h)
-	int flag;
-	int cflag;
+	public int flag;
+	public int cflag;
 	
-	K_KonohaSpace ks;
+	public K_KonohaSpace ks;
 	
-	int thisCid;
-	static int staticCid;
-	K_Method mtd;
-	GStack f = new GStack();
-	GStack l = new GStack();
-	K_Array lvarlst;
-	int lvarlstTop;
+	public int thisCid;
+	public static int staticCid;
+	public K_Method mtd;
+	public GStack f;
+	public GStack l;
+	public K_Array lvarlst;
+	public int lvarlstTop;
 }

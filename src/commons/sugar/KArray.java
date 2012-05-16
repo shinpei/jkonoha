@@ -3,15 +3,15 @@ package commons.sugar;
 import commons.konoha2.kclass.K_Object;
 
 public class KArray {//joseph: karray_t in original konoha2 (/include/konoha2/konoha2.h)
-	int byteSize;
+	public int byteSize;
 	
 	/*union*/
-	String		bytebuf;
-	K_Class		cts;
-	Kvs			kvs;
-	Kopl		opl;
-	K_Object	objects;//TODO
-	K_Object	refhead;
+	public String		bytebuf;
+	public K_Class		cts;
+	public Kvs			kvs;
+	public Kopl		opl;
+	public K_Object	objects;//TODO
+	public K_Object	refhead;
 	
 	/*union {	//TODO
 		char  *bytebuf;
@@ -21,5 +21,5 @@ public class KArray {//joseph: karray_t in original konoha2 (/include/konoha2/ko
 		const struct _kObject **objects;
 		struct _kObject       **refhead;  // stack->ref
 	};*/
-	int byteMax;
+	public int byteMax;
 }
