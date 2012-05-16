@@ -9,19 +9,19 @@ import org.apache.commons.cli.*;
 
 public class Konoha {
 	
-	public static int compileonlyFlag = 0;       // global variable
-	public static int interactiveFlag = 0;       // global variable
+	public static boolean compileonlyFlag = false;       // global variable
+	public static boolean interactiveFlag = false;       // global variable
 	
-	public static int verboseDebug = 0;	         //global variable
-	public static int verboseGc	= 0;	         //global variable
-	public static int verboseSugar = 0;	         //global variable
-	public static int verboseCode = 0;	         //global variable
+	public static boolean verboseDebug = false;	         //global variable
+	public static boolean verboseGc	= false;	         //global variable
+	public static boolean verboseSugar = false;	         //global variable
+	public static boolean verboseCode = false;	         //global variable
 
 	public static String startupScript = null;	 //global variable
 	public static String builtinTest = null;	 //global variable
 	public static String testScript = null;	     //global variable
 	
-	public static Options longOptions;
+	private static Options longOptions;
 	
 	// src/konoha/methods.h
 	public static int assertResult = 0;
@@ -56,7 +56,10 @@ public class Konoha {
 	
 	public static void main(String[] args) throws IOException {
 		boolean ret = true;
-		int scriptidx = ginit(args);
+		String[] leftedArgs = ginit(args);
+		if(leftedArgs.length > 1) System.exit(1);
+		else if(leftedArgs.length == 0) interactiveFlag = true;
+		
 		if(builtinTest != null) {
 			System.exit(builtinTest(builtinTest));
 		}
@@ -67,10 +70,10 @@ public class Konoha {
 		if(startupScript != null) {
 			startup(konoha, startupScript);
 		}
-		if(scriptidx < args.length) {
-			ret = load(konoha, args[scriptidx]);
+		if(leftedArgs.length == 1) {
+			ret = load(konoha, leftedArgs[0]);
 		}
-		if(ret && (interactiveFlag != 0)) {    // TODO interactiveFlag to boolean?
+		if(ret && (interactiveFlag != false)) {    // TODO interactiveFlag to boolean?
 			ret = kShell(konoha);
 		}
 		close(konoha);
@@ -78,48 +81,64 @@ public class Konoha {
 		System.exit(ret ? assertResult : 1);
 	}
 
-	public static int ginit(String[] args) {
+	public static String[] ginit(String[] args) {
 		if (System.getenv("KONOHA_DEBUG") != null) {
-			longOptions.getOption("verbose");
-			verboseDebug = 1;
-			verboseGc = 1;
-			verboseSugar = 1;
-			verboseCode = 1;
+			verboseDebug = true;
+			verboseGc = true;
+			verboseSugar = true;
+			verboseCode = true;
 		}
-		//TODO Getopt options = new Getopt(long_options/*TODO long_options(struct)*/, args, "icI:S:");
-		//TODO import gnu.getopt.Getopt;
-		while(true) {
-			int optionIndex = 0;
-			int c = optionIndex; //TODO options.getopt();
-			if (c == -1) break; /* Detect the end of the options. */
-			switch (c) {
-			case 0://TODO
-				/* If this option set a flag, do nothing else now. */
-			case 'c':
-				compileonlyFlag = 1;
-				break;
-			case 'i':
-				interactiveFlag = 1;
-				break;
-			case 'B':
-				builtinTest = optarg;
-				break;
-			case 'S':
-				startupScript = optarg;
-				break;
-			case 'T':
-				testScript = optarg;
-				break;
-			case '?':
-				break;
-			default:
-			//CacheRequest.abort(); TODO needs override?
-			}
+		
+		CommandLineParser parser = new BasicParser();
+		CommandLine commandLine = null;
+		try {
+			commandLine = parser.parse(longOptions, args);
+		} catch (ParseException e) {
+			// TODO
 		}
-		if (optind < args.length) {
-			interactiveFlag = 1;
+		
+		if(commandLine.hasOption("verbose")) {
+			verboseDebug = true;
+			System.out.println("option vervose");
 		}
-		return optind;
+		if(commandLine.hasOption("verbose:gc")) {
+			verboseGc = true;
+			System.out.println("option vervose:gc");
+		}
+		if(commandLine.hasOption("verbose:sugar")) {
+			verboseSugar = true;
+			System.out.println("option vervose:sugar");
+		}
+		if(commandLine.hasOption("verbose:code")) {
+			verboseCode = true;
+			System.out.println("option vervose:code");
+		}
+		if(commandLine.hasOption("interactive")) {
+			interactiveFlag = true;
+			System.out.println("option interactive");
+		}
+		if(commandLine.hasOption("typecheck")) {
+			compileonlyFlag = true;
+			System.out.println("option typecheck");
+		}
+		if(commandLine.hasOption("start-with")) {
+			startupScript = commandLine.getOptionValue("start-with");
+			System.out.println("option start-with");
+			System.out.println(" with arg " + startupScript);
+		}
+		if(commandLine.hasOption("test")) {
+			testScript = commandLine.getOptionValue("test");
+			System.out.println(" with arg " + testScript);
+		}
+		if(commandLine.hasOption("test-with")) {
+			testScript = commandLine.getOptionValue("test");
+			System.out.println(" with arg " + testScript);
+		}
+		if(commandLine.hasOption("builtin-test")) {
+			builtinTest = commandLine.getOptionValue("builtin-test");
+			System.out.println(" with arg " + builtinTest);
+		}
+		return commandLine.getArgs();
 	}
 	
 	
@@ -150,10 +169,10 @@ public class Konoha {
 	
 	public static int test(String testname) throws IOException {
 		//reduced error message
-		verboseDebug	= 0;
-		verboseSugar	= 0;
-		verboseGc 		= 0;
-		verboseCode	= 0;
+		verboseDebug	= false;
+		verboseSugar	= false;
+		verboseGc 		= false;
+		verboseCode	= false;
 		CTX konoha = new CTX();//TODO konoha_t(CTX) konoha = konoha_open();
 		if (startupScript != null) {
 			startup (konoha, startupScript);
