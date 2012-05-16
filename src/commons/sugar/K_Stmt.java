@@ -9,7 +9,7 @@ public class K_Stmt extends K_Object {
 	K_Block parentNULL;
 	int build;
 
-	public void setsyn(KSyntax syn) { //inline
+	public void setSyn(KSyntax syn) { //inline
 		//		if(syn == NULL && stmt->syn != NULL) {
 		//		DBG_P("DONE: STMT='%s'", T_kw(syn->kw));
 		//	    }

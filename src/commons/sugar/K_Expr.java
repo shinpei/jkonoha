@@ -9,7 +9,7 @@ public class K_Expr extends K_Object {
 	// union-------------
 	K_Object data;
 	K_Array<K_Object> cons;  // Cons
-	K_Expr   single;
+	K_Expr single;
 	K_Block block;
 	// ---------------------
 	// union-------------
