@@ -4,7 +4,7 @@ import commons.sugar.*;
 
 public final class KObjectHeader {
 	public int magicflag;
-	K_Class ct; //RENAME
+	KClass ct; //RENAME
 	
 	/*union*/
 	public long refc;

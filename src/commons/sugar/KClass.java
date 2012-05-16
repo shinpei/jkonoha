@@ -2,7 +2,7 @@ package commons.sugar;
 
 import commons.konoha2.kclass.K_Object;
 
-public class K_Class extends K_Object {//joseph: _kclass in original konoha2 (/include/konoha2/konoha2.h)
+public class KClass extends K_Object {//joseph: _kclass in original konoha2 (/include/konoha2/konoha2.h)
 												//kclass_T means const struct _kclass
 	//TODO
 /*	KCLASSSPI;

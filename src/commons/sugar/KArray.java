@@ -7,7 +7,7 @@ public class KArray {//joseph: karray_t in original konoha2 (/include/konoha2/ko
 	
 	/*union*/
 	public String		bytebuf;
-	public K_Class		cts;
+	public KClass		cts;
 	public Kvs			kvs;
 	public Kopl		opl;
 	public K_Object	objects;//TODO
