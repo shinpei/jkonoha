@@ -1,9 +1,7 @@
 package sugar;
 
 import tool.Konoha;
-import commons.konoha2.CTX;
-import commons.konoha2.kclass.K_Object;
-import commons.konoha2.kclass.K_String;
+import commons.konoha2.*;
 import commons.sugar.CtxSugar;
 import commons.sugar.K_Expr;
 
