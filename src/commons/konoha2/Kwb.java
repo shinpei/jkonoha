@@ -20,7 +20,7 @@ public class Kwb {
 		m.byteSize += byteLen;
 	}
 
-	public void Kwb_putc(CTX ctx,int... ap) {
+	public void putc(CTX ctx,int... ap) {
 		String buf;
 		int len = 0;
 		for(int ch : ap) {
