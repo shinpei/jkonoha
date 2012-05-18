@@ -5,7 +5,6 @@ import commons.sugar.KArray;
 public class Kwb {
 	KArray m;
 	int pos;
-<<<<<<< HEAD
 	
 	public Kwb(KArray m) {
 		this.m = m;
