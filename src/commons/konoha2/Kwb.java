@@ -21,7 +21,7 @@ public class Kwb {
 	}
 
 	public void putc(CTX ctx,int... ap) {
-		String buf;
+		String buf = "";
 		int len = 0;
 		for(int ch : ap) {
 			buf += ch;
