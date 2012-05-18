@@ -6,9 +6,9 @@ public class Kwb {
 	KArray m;
 	int pos;
 	
-	public Kwb(KArray m) {
-		this.m = m;
-		this.pos = m.byteSize;
+	public Kwb(KArray init) {
+		this.m = init;
+		this.pos = init.byteSize;
 	}
 
 	public void write(CTX ctx, String data, int byteLen) {
