@@ -5,32 +5,29 @@ import commons.sugar.KArray;
 public class Kwb {
 	KArray m;
 	int pos;
-
-	public Kwb(kArray m) {
-		this.m = m;
-		this.pos = m.byteSize;
+	
+	public Kwb(KArray init) {
+		this.m = init;
+		this.pos = init.byteSize;
 	}
 
-	static void Kwb_write(CTX, kwb_t *wb, const char *data, size_t bytelen) {//How to do new KArray m or this.m?
-		karray_t *m = wb->m;
-		if(!(m->bytesize + bytelen < m->bytemax)) {
-			karray_expand(_ctx, m, m->bytesize + bytelen);
+	public void write(CTX ctx, String data, int byteLen) {
+		if(!(m.byteSize + byteLen < m.byteMax)) {
+			/*karray_expand(_ctx, m, m->bytesize + byteLen);*/
 		}
-		memcpy(m->bytebuf + m->bytesize, data, bytelen);
-		m->bytesize += bytelen;
+		/*memcpy(m.bytebuf + m.byteSize, data, byteLen);*/
+		m.bytebuf += m.byteSize + data.substring(0,byteLen + 1);	
+		m.byteSize += byteLen;
 	}
 
-	static void Kwb_putc(CTX, kwb_t *wb, ...) {
-		char buf[256];
-		int ch, len = 0;
-		va_list ap;
-		va_start(ap , wb);
-		while((ch = (int)va_arg(ap, int)) != -1) {
-			buf[len] = ch;
+	public void putc(CTX ctx,int... ap) {
+		String buf = "";
+		int len = 0;
+		for(int ch : ap) {
+			buf += ch;
 			len++;
 	 	}
-		Kwb_write(_ctx, wb, buf, len);
-		va_end(ap);
+		write(ctx, buf, len);
 	}
 
 	public void vprintf(CTX ctx, Kwb wb, Object... ap) {//String... ap
