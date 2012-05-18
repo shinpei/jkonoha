@@ -53,8 +53,7 @@ public class Kwb {
 		//va_end(ap);
 	}
 
-	public String top(CTX ctx, Kwb wb, boolean ensureZero) {
-		KArray m = wb.m;
+	public String top(CTX ctx, boolean ensureZero) {
 		if(ensureZero) {
 			if( !(m.byteSize + 1 < m.byteMax) ) {
 				karray_expand(ctx, m, m.byteSize + 1);//TODO
@@ -64,9 +63,9 @@ public class Kwb {
 		return (m.bytebuf + wb.pos);
 	}
 
-	public void free(Kwb wb) {
-		this.m = wb.m;
+	public void free() {
+		m = wb.m;
 		bzero(m.bytebuf + wb.pos, m.byteSize - wb.pos);//TODO
-		this.m.byteSize = wb.pos;
+		m.byteSize = wb.pos;
 	}
 }
