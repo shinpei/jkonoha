@@ -5,6 +5,7 @@ import commons.sugar.KArray;
 public class Kwb {
 	KArray m;
 	int pos;
+<<<<<<< HEAD
 	
 	public Kwb(KArray m) {
 		this.m = m;
@@ -20,7 +21,7 @@ public class Kwb {
 		m.byteSize += byteLen;
 	}
 
-	public void Kwb_putc(CTX ctx,int... ap) {
+	public void putc(CTX ctx,int... ap) {
 		String buf;
 		int len = 0;
 		for(int ch : ap) {
@@ -30,41 +31,43 @@ public class Kwb {
 		write(ctx, buf, len);
 	}
 
-	static void Kwb_vprintf(CTX, kwb_t *wb, const char *fmt, va_list ap) {
-		va_list ap2;
-		va_copy(ap2, ap);
-		karray_t *m = wb->m;
-		size_t s = m->bytesize;
-		size_t n = vsnprintf( m->bytebuf + s, m->bytemax - s, fmt, ap);
-		if(n >= (m->bytemax - s)) {
-			karray_expand(_ctx, m, n + 1);
-			n = vsnprintf(m->bytebuf + s, m->bytemax - s, fmt, ap2);
+	public void vprintf(CTX ctx, Kwb wb, Object... ap) {//String... ap
+		//va_list ap2;
+		//va_copy(ap2, ap);
+		this.m = wb.m;//TODO this.m or KArray m = wb.m ?
+		Object ap2 = ap;
+		int s = m.byteSize;
+		int n = vsnprintf( m.bytebuf + s, m.byteMax - s, ap);//TODO
+		if(n >= (m.byteMax - s)) {
+			karray_expand(ctx, m, n + 1);//TODO
+			n = vsnprintf(m.bytebuf + s, m.byteMax - s, ap);
 		}
-		va_end(ap2);
-		m->bytesize += n;
+		//va_end(ap2);
+		m.byteSize += n;
 	}
 
-	static void Kwb_printf(CTX, kwb_t *wb, const char *fmt, ...) {
-		va_list ap;
-		va_start(ap, fmt);
-		Kwb_vprintf(_ctx, wb, fmt, ap);
-		va_end(ap);
+	public void printf (CTX ctx, Kwb wb, Object... ap) {//TODO NO IDEA
+		//*note:fmt is an Array, the type is Sting. This means String[] fmt = new String[]
+		//va_list ap;
+		//va_start(ap, fmt);
+		vprintf(ctx, wb, ap);
+		//va_end(ap);
 	}
 
-	static const char* Kwb_top(CTX, kwb_t *wb, int ensureZero) {
-		karray_t *m = wb->m;
+	public String top(CTX ctx, Kwb wb, boolean ensureZero) {
+		KArray m = wb.m;
 		if(ensureZero) {
-			if(!(m->bytesize + 1 < m->bytemax)) {
-				karray_expand(_ctx, m, m->bytesize + 1);
+			if( !(m.byteSize + 1 < m.byteMax) ) {
+				karray_expand(ctx, m, m.byteSize + 1);//TODO
 			}
-			m->bytebuf[m->bytesize] = 0;
+			m.bytebuf += 0;//TODO
 		}
-		return (const char*)m->bytebuf + wb->pos;
+		return (m.bytebuf + wb.pos);
 	}
 
-	static void Kwb_free(kwb_t *wb) {
-		karray_t *m = wb->m;
-		bzero(m->bytebuf + wb->pos, m->bytesize - wb->pos);
-		m->bytesize = wb->pos;
+	public void free(Kwb wb) {
+		this.m = wb.m;
+		bzero(m.bytebuf + wb.pos, m.byteSize - wb.pos);//TODO
+		this.m.byteSize = wb.pos;
 	}
 }
