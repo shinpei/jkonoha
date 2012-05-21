@@ -30,42 +30,33 @@ public class Kwb {
 		write(ctx, buf, len);
 	}
 
-	public void vprintf(CTX ctx, Kwb wb, Object... ap) {//String... ap
-		//va_list ap2;
-		//va_copy(ap2, ap);
-		this.m = wb.m;//TODO this.m or KArray m = wb.m ?
+	public void vprintf(CTX ctx, Object... ap) {//String... ap
 		Object ap2 = ap;
 		int s = m.byteSize;
 		int n = vsnprintf( m.bytebuf + s, m.byteMax - s, ap);//TODO
-		if(n >= (m.byteMax - s)) {
+		if(n >= (m.byteMax - s) ) {
 			karray_expand(ctx, m, n + 1);//TODO
 			n = vsnprintf(m.bytebuf + s, m.byteMax - s, ap);
 		}
-		//va_end(ap2);
 		m.byteSize += n;
 	}
 
-	public void printf (CTX ctx, Kwb wb, Object... ap) {//TODO NO IDEA
-		//*note:fmt is an Array, the type is Sting. This means String[] fmt = new String[]
-		//va_list ap;
-		//va_start(ap, fmt);
-		vprintf(ctx, wb, ap);
-		//va_end(ap);
+	public void printf (CTX ctx, Object... ap) {//TODO NO IDEA
+		vprintf(ctx, ap);
 	}
 
 	public String top(CTX ctx, boolean ensureZero) {
 		if(ensureZero) {
-			if( !(m.byteSize + 1 < m.byteMax) ) {
+			if(  !(m.byteSize + 1 < m.byteMax)  ) {
 				karray_expand(ctx, m, m.byteSize + 1);//TODO
 			}
-			m.bytebuf += 0;//TODO
+			m.bytebuf += 0;//TODO NO IDEA
 		}
-		return (m.bytebuf + wb.pos);
+		return (m.bytebuf + pos);
 	}
 
 	public void free() {
-		m = wb.m;
-		bzero(m.bytebuf + wb.pos, m.byteSize - wb.pos);//TODO
-		m.byteSize = wb.pos;
+		bzero(m.bytebuf + pos, m.byteSize - pos);//TODO
+		m.byteSize = pos;
 	}
 }

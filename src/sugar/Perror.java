@@ -1,18 +1,24 @@
 package sugar;
 
+import commons.klib.KLib;
 import tool.Konoha;
 import commons.konoha2.*;
+import commons.konoha2.kclass.K_String;
 import commons.sugar.CtxSugar;
 import commons.sugar.K_Expr;
 
 public class Perror {
+	
+	public static boolean CTX_isInteractive = true;
+	public static boolean CTX_isCompileOnly = false;
+	
 	public static String T_emsg(CTX ctx, int pe) { 
 		switch(pe) {
 		case CRIT_:							// not exist
 		case ERR_: return "(error)";		// not exist
 		case WARN_: return "(warning)";		// not exist
 		case INFO_:							// not exist
-			if(CTX_isInteractive() || CTX_isCompileOnly() || verbose_sugar) { // not exist
+			if(CTX_isInteractive || CTX_isCompileOnly || Konoha.verboseSugar) { // not exist
 				return "(info)";
 			}
 			return null;
@@ -25,26 +31,21 @@ public class Perror {
 		return "(unknown)";
 	}
 	
-	public static int vperrorf(CTX ctx, int pe, int uline, int lpos, String fmt, K_Object... ap/*TODO*/) {//joseph: vperrorf in original konoha2 (src/sugar/perror.h)
+	public static int vperrorf(CTX ctx, int pe, int uline, int lpos, String fmt, Object... ap) {
 		String msg = T_emsg(ctx, pe);
 		int errref = -1;
 		if(msg != null) {
 			CtxSugar base = new CtxSugar();//ctx.KArrayList<KModLocal>;
-			Kwb wb;//TODO
-			/*typedef struct kwb_t { //in /include/konoha2/konoha2.h
-				karray_t *m;
-				size_t pos;
-			} kwb_t;*/
-			Kwb_init(base.cwb, wb);
+			Kwb wb = new Kwb(base.cwb);
 			if(uline > 0) {
 				String file = T_file(uline);//TODO T_file
-				kwb_printf(msg + KLib.shortname(file) + uline);// shortname is in KLib.java
+				wb.printf(ctx, msg + KLib.shortname(file) + uline);//TODO shortname is in KLib.java
 			}
 			else {
-				kwb_printf(wb, msg);
+				wb.printf(ctx, msg);
 			}
-			kwb_vprintf(wb, fmt, ap);
-			msg = kwb_top(wb, 1);
+			wb.vprintf(ctx, ap);//TODO
+			msg = wb.top(ctx, true);
 			//TODO new_kSting, kArray_size, kArray_add
 			K_String emsg = new K_String(msg);
 			errref = base.errors.size();
@@ -60,12 +61,12 @@ public class Perror {
 	}
 	
 	public static int sugar_p(CTX ctx, int pe, int uline, int lpos, Object... ap) {
-		int errref = vperrorf(ctx, pe, uline, lpos, ap); //TODO vperrorf is not exist
+		int errref = Perror.vperrorf(ctx, pe, uline, lpos, null, ap); //TODO What is the arg, "null"
 		return errref;
 	}
 
 	public static K_Expr Token_p(CTX ctx, K_Token tk, int pe, Object... ap) {
-		vperrorf(ctx, pe, tk.uline, tk.lpos, ap); //TODO vperrorf is not exist
+		Perror.vperrorf(ctx, pe, tk.uline, tk.lpos, null, ap); //TODO What is null?
 		// return K_NULLEXPR; TODO
 		return null;
 	}	
@@ -77,8 +78,7 @@ public class Perror {
 	
 	public static K_String KStrerror(CTX ctx, int eno) {
 		CtxSugar base = ctx.modlocal.get(CTX.MOD_sugar); //TODO
-		int i;
-		for(i = eno; i < base.errors.size(); i++) {
+		for(int i = eno; i < base.errors.size(); i++) {
 			K_String emsg = base.errors.get(i);          //TODO
 			if(emsg.text.indexOf("(error)") != -1) {
 				return emsg;
