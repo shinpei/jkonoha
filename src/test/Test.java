@@ -38,7 +38,8 @@ class Test {
 //		xxx/						ok
 		String source = br.readLine();
 		if(source != null) {
-			Tokenizer.ktokenize(ctx, ks, source, uline, a);
+//			Tokenizer.ktokenize(ctx, ks, source, uline, a);
+			ks.tokenize(ctx, source, uline, a);
 			for(int i = 0; i < a.size(); i++) {
 				System.out.print("{ token type:" + a.get(i).tt + ", ");
 				if(a.get(i).text != null) {

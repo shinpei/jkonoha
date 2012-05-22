@@ -2,6 +2,7 @@ package sugar.token.codeParser;
 
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
+import commons.sugar.TEnv;
 import sugar.*;
 import sugar.token.*;
 

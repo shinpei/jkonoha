@@ -1,4 +1,4 @@
-package sugar.token;
+package commons.sugar;
 
 import commons.konoha2.kclass.*;
 
@@ -34,7 +34,7 @@ public class TEnv {
 	 * @param fmat
 	 */
 	
-	TEnv(String source, int uline, K_Array<K_Token> a, int indent_tab, FTokenizer[] fmat) {
+	public TEnv(String source, int uline, K_Array<K_Token> a, int indent_tab, FTokenizer[] fmat) {
 		this.source = source;
 		this.uline = uline;
 		this.list = a;

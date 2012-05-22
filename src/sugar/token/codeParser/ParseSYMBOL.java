@@ -2,11 +2,11 @@ package sugar.token.codeParser;
 
 import sugar.*;
 
-import sugar.token.TEnv;
 
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.K_Method;
 import commons.konoha2.kclass.K_String;
+import commons.sugar.TEnv;
 
 /**
  * This class is used to parse "SYMBOL" 

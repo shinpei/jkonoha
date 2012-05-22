@@ -5,6 +5,7 @@ import sugar.Sugar;
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.K_Array;
 import commons.sugar.CtxSugar;
+import commons.sugar.K_KonohaSpace;
 
 public final class SyntaxRuleParser {
 	
@@ -94,7 +95,9 @@ public final class SyntaxRuleParser {
 		CtxSugar ctxsugar = (CtxSugar)ctx.ctxsugar();
 		K_Array<K_Token> tls = ctxsugar.tokens;
 		int pos = tls.size();
-		Tokenizer.ktokenize(ctx, null, rule, uline, tls);
+		K_KonohaSpace ks = null;
+		ks.tokenize(ctx, rule, uline, a);
+//		Tokenizer.ktokenize(ctx, null, rule, uline, tls);
 		makeSyntaxRule(ctx, tls, pos, tls.size(), a);
 		tls.clear();
 	}

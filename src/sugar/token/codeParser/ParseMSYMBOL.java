@@ -5,6 +5,7 @@ import sugar.token.*;
 import commons.*;
 import commons.konoha2.*;
 import commons.konoha2.kclass.*;
+import commons.sugar.TEnv;
 
 /**
  * This class is used to parse "MYSYMBOL" 

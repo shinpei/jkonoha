@@ -28,7 +28,7 @@ public final class Tokenizer { // not original
 		return (ch < 0) ? _MULTI : cMatrix[ch];
 	}	
 	
-	private static final void tokenize(CTX ctx, TEnv tenv) {
+	public static final void tokenize(CTX ctx, TEnv tenv) {
 		int ch, pos = 0;
 		FTokenizer fmat[] = tenv.fmat;
 		K_Token tk = new K_Token(); // TODO
@@ -113,7 +113,7 @@ public final class Tokenizer { // not original
 	 * @param a tokens which sourcecode is divided into
 	 */
 	
-	public static void ktokenize(CTX ctx, K_KonohaSpace ks, String source, int uline, K_Array<K_Token> a) {
+/*	public static void ktokenize(CTX ctx, K_KonohaSpace ks, String source, int uline, K_Array<K_Token> a) {
 		int i, pos = a.size();
 		FTokenizer fmat[];
 		fmat = MiniKonohaTokenMatrix();
@@ -125,7 +125,7 @@ public final class Tokenizer { // not original
 				a.get(i).uline = 0;
 			}
 		}
-	}
+	} */
 	
 	/* const */
 	public static final int _NULL = 0;
