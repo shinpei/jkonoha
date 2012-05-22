@@ -7,9 +7,9 @@ public final class KObjectHeader {
 	KClass ct; //RENAME
 	
 	/*union*/
-	public long refc;
+	public int refc;
 	//void *gcinfo;
-	public long hashcode;
+	public int hashcode;
 	
 	public KArray kvproto;
 	// TODO

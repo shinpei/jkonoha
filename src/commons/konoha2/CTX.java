@@ -6,7 +6,7 @@ import commons.konoha2.kclass.*;
 
 public final class CTX {
 
-	public 1int				safepoint;
+	public int				safepoint;
 //	KSfp			esp;
 //	KLib2			lib2;
 //	KMemShare		memshare;
