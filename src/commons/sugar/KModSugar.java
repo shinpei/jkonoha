@@ -1,24 +1,25 @@
 package commons.sugar;
 
+import java.util.ArrayList;
+
 import commons.konoha2.KModShare;
 import commons.konoha2.kclass.*;
-import commons.sugar.*;
 
-public class KModSugar {//joseph:kmodsugar_t in original konoha2 (/include/konoha2/sugar.h)
-	public KModShare	h;
-	public K_Class		cToken;//TODO
-	public K_Class		cExpr;//TODO
-	public K_Class		cStmt;//TODO
-	public K_Class		cBlock;//TODO
-	public K_Class		cKonohaSpace;//TODO
-	public K_Class		cGamma;//TODO
-	public K_Class		cTokenArray;//TODO
-	//
-	public K_Array			keywordList;
-	public struct kmap_t	keywordMapNN;//TODO
-	public K_Array         packageList;
-	public struct kmap_t	packageMapNO;//TODO
-	public K_KonohaSpace	rootks;
+public class KModSugar extends KModShare {//joseph:kmodsugar_t in original konoha2 (/include/konoha2/sugar.h)
+	
+	public KClass		cToken;
+	public KClass		cExpr;
+	public KClass		cStmt;
+	public KClass		cBlock;
+	public KClass		cKonohaSpace;
+	public KClass		cGamma;
+	public KClass		cTokenArray;
+	
+	public ArrayList<String>			keywordList;
+	public KMap							keywordMapNN;
+	public K_Array						packageList;
+	public KMap							packageMapNO;
+	public K_KonohaSpace				rootks;
 
 	public K_Method		UndefinedParseExpr;
 	public K_Method		UndefinedStmtTyCheck;

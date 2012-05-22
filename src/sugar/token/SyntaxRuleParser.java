@@ -1,8 +1,10 @@
 package sugar.token;
 
 import sugar.K_Token;
+import sugar.Sugar;
 import commons.konoha2.CTX;
 import commons.konoha2.kclass.K_Array;
+import commons.sugar.CtxSugar;
 
 public final class SyntaxRuleParser {
 	
@@ -35,30 +37,31 @@ public final class SyntaxRuleParser {
 	
 	private static boolean makeSyntaxRule(CTX ctx, K_Array<K_Token> tls, int s, int e, K_Array<K_Token> adst) {
 		int i;
+		int[] iPtr = new int[1];
+		String nbuf;
 		int nameid = 0;
 		// TODO dumpTokenArray(_ctx, 0, tls, s, e);
 		for(i = s; i < e; i++) {
-			K_Token tk = (K_Token)tls.get(i);
+			K_Token tk = tls.get(i);
 			if(tk.tt == K_Token.TK_INDENT) continue;
 			if(tk.tt == K_Token.TK_TEXT /*|| tk.tt == KToken.TK_STEXT*/) {
-				int[] iPtr = new int[1];
 				iPtr[0] = i;
 				if(checkNestedSyntax(ctx, tls, iPtr, e, K_Token.AST_PARENTHESIS, '(', ')') ||
 						checkNestedSyntax(ctx, tls, iPtr, e, K_Token.AST_PARENTHESIS, '[', ']') ||
-						checkNestedSyntax(ctx, tls, iPtr, e, K_Token.AST_PARENTHESIS, '{', '}'))
-				{
+						checkNestedSyntax(ctx, tls, iPtr, e, K_Token.AST_PARENTHESIS, '{', '}')) {
 				}
 				else {
 					tk.tt = K_Token.TK_CODE;
-					// TODO tk.kw = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
+					tk.kw = Sugar.keyword(ctx, tk.text.text, CTX.FN_NEWID);
+					// tk.kw = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
 				}
 				adst.add(tk);
 				continue;
 			}
 			if(tk.tt == K_Token.TK_SYMBOL || tk.tt == K_Token.TK_USYMBOL) {
-				if(i > 0 && ((K_Token)tls.get(i - 1)).topch == '$') {
-					// TODO
-					// snprintf(nbuf, sizeof(nbuf), "$%s", S_text(tk->text));
+				if(i > 0 && (tls.get(i - 1)).topch == '$') {
+					nbuf = "$" + tk.text.text;
+					tk.kw = Sugar.keyword(ctx, nbuf, CTX.FN_NEWID);
 					// tk->kw = keyword(_ctx, (const char*)nbuf, strlen(nbuf), FN_NEWID);
 					tk.tt = K_Token.TK_METNAME;
 					if(nameid == 0) nameid = tk.kw;
@@ -66,15 +69,16 @@ public final class SyntaxRuleParser {
 					nameid = 0;
 					adst.add(tk); continue;
 				}
-				if(i + 1 < e && ((K_Token)tls.get(i + 1)).topch == ':') {
-					tk = (K_Token)tls.get(i);
-					// TODO nameid = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
+				if(i + 1 < e && (tls.get(i + 1)).topch == ':') {
+					tk = tls.get(i);
+					nameid = Sugar.keyword(ctx, tk.text.text, CTX.FN_NEWID);
+					// nameid = keyword(_ctx, S_text(tk->text), S_size(tk->text), FN_NEWID);
 					i++;
 					continue;
 				}
 			}
 			if(tk.tt == K_Token.TK_OPERATOR) {
-				if( checkNestedSyntax ) {
+				if(checkNestedSyntax(ctx, tls, iPtr, e, K_Token.AST_OPTIONAL, '[', ']')) {
 					adst.add(tk);
 					continue;
 				}
@@ -87,13 +91,11 @@ public final class SyntaxRuleParser {
 	}
 	
 	public static void parseSyntaxRule(CTX ctx, String rule, int uline, K_Array<K_Token> a) {
-		K_Array<K_Token> tls; // TODO kArray *tls = ctxsugar->tokens;
+		CtxSugar ctxsugar = (CtxSugar)ctx.ctxsugar();
+		K_Array<K_Token> tls = ctxsugar.tokens;
 		int pos = tls.size();
 		Tokenizer.ktokenize(ctx, null, rule, uline, tls);
-	}
-	
-	/* stub */
-	public static int keyword(CTX ctx, String name, int def) {
-		int hcode = name.hashCode();
+		makeSyntaxRule(ctx, tls, pos, tls.size(), a);
+		tls.clear();
 	}
 }

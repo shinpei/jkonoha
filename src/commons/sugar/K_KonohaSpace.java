@@ -9,11 +9,10 @@ public class K_KonohaSpace extends K_Object {
 	K_KonohaSpace parentNULL;
 	FTokenizer fmat;
 	KMap syntaxMapNN;
-	//
-	void gluehdr;
+	
+//	void gluehdr;
 	K_Object scrNUL;
 	int static_cid; int function_cid;
 	K_Array<K_Object> methods;  // default K_EMPTYARRAY
 	KArray cl;
-
 }
